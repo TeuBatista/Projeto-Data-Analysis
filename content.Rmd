@@ -1,0 +1,6 @@
+---
+title: "Cyclistic_bike_share_Projeto"
+output:
+  html_document:
+    df_print: paged
+---

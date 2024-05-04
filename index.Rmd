@@ -1,0 +1,753 @@
+---
+title: "Cyclistic_bike_share_Projeto"
+date: "2024-03-25"
+author: "Matheus Batista"
+output: 
+  html_document:
+    theme: cosmo
+    toc: true
+    toc_float: true
+    highlight: tango
+    fig_caption: true
+    df_print: paged
+    self_contained: false
+    keep_md: true
+
+---
+
+
+### Estudo de Caso Cyclistic
+#### *O fluxo de trabalho de análise de dados é o seguinte: Perguntar, Preparar, Processar, Analisar e Compartilhar (combinados neste caso), e Agir.*
+
+# Índice
+
+* [Introdução](#introducao)
+* [1: Perguntar](#perguntar)
+* [2: Preparar](#preparar)
+* [3: Processar](#processar)
+* [4: Analisar](#analisar)
+* [5: Compartilhar](#compartilhar)
+* [6: Agir](#agir)
+
+<a id="introducao"></a>
+
+# Introdução
+
+Este caderno é um projeto de conclusão de curso da Certificação Profissional de Análise de Dados do Google.
+
+O projeto consiste em um estudo de caso sobre a empresa Cyclistic, um serviço de compartilhamento de bicicletas na cidade de Chicago.
+
+A Cyclistic opera com uma frota de 5.824 bicicletas e uma rede de 692 estações em Chicago. A empresa oferece dois modelos de serviço: passes diários, para viagem única ou dia inteiro, e assinaturas anuais.
+
+Os clientes que optam pelas assinaturas anuais são chamados de *"membros Cyclistic"*. Aqueles que utilizam as bicicletas por meio dos passes diários são denominados *"usuários casuais"*.
+
+Os analistas financeiros da Cyclistic concluíram que os membros anuais são mais rentáveis do que os usuários casuais. Lily Moreno, diretora de marketing da Cyclistic, acredita que maximizar o número de membros anuais será fundamental para o crescimento futuro da empresa. Em vez de direcionar uma campanha de marketing para atrair novos clientes, ela vê uma oportunidade de converter os usuários casuais em membros. Ela observa que os ciclistas casuais já estão cientes do programa Cyclistic e optaram pela empresa para suas necessidades de mobilidade.
+
+Para orientar a análise dos dados, este projeto seguira as seis etapas de análise de dados recomendadas pelo Google: perguntar, preparar, processar, analisar, compartilhar e agir.
+
+
+<a id="perguntar"></a>
+
+# 1: Perguntar
+
+Os principais questionamentos que nortearão a analise são acerca de compreender como os membros Cyclistic e os usuários casuais usam as bicicletas de maneira diferente.
+
+Stakeholders: As partes interessadas são a diretoria de marketing e a equipe executiva da Cyclistic.
+
+
+<a id="preparar"></a>
+
+# 2: Preparar os Dados
+
+
+## Sobre os Dados Utilizados
+
+Usamos, para este projeto,  os dados dos últimos 12 meses de viagens da Cyclistic disponibilizados pela Motivate International Inc - Hospedado no seguinte endereço: [https://divvy-tripdata.s3.amazonaws.com/index.html](https://divvy-tripdata.s3.amazonaws.com/index.html)
+
+* Os dados estão divididos em 12 arquivos, cada um referente a um mês do ano, sendo o ultimo intervalo de 12 meses completos considerados para o projeto de Mar/2023 a Fev/2024).
+
+* Objetivamente, o registro de cada viagem é composto por um ID (único) da viagem, horário do início e término da viagem, localização das estações de início e término da viagem, tipo de bicicleta utilizada e tipo de usuário que realizou a viagem (membro Cyclistic ou usuário casual).
+
+Erros e Problemas de Dados: Os dados têm problemas com dados duplicados, valores nulos e dados inválidos.
+
+Ferramentas de analise: Trabalharemos com a linguagem R devido à sua flexibilidade e ao fato de termos um grande conjunto de dados.
+
+
+### Bibliotecas
+
+```{r}
+library(tidyverse)  #ajuda a manipular dados
+library(lubridate)  #ajuda a manipular atributos de data
+library(ggplot2)  #ajuda a visualizar dados
+library(readr) #ler arquivos csv
+library(plyr) #função bind
+library(dplyr)#Função summarize
+library("dplyr")
+library(stringr)
+library(DescTools)
+library(DT)
+```
+
+
+#### Carregando os Dados
+
+
+Atribuímos os arquivos dos dados às variáveis relativas a cada mês do ano
+
+```{r}
+data_03_2023 <- read.csv("content/202303-divvy-tripdata.csv")
+data_04_2023 <- read.csv("content/202304-divvy-tripdata.csv")
+data_05_2023 <- read.csv("content/202305-divvy-tripdata.csv")
+data_06_2023 <- read.csv("content/202306-divvy-tripdata.csv")
+data_07_2023 <- read.csv("content/202307-divvy-tripdata.csv")
+data_08_2023 <- read.csv("content/202308-divvy-tripdata.csv")
+data_09_2023 <- read.csv("content/202309-divvy-tripdata.csv")
+data_10_2023 <- read.csv("content/202310-divvy-tripdata.csv")
+data_11_2023 <- read.csv("content/202311-divvy-tripdata.csv")
+data_12_2023 <- read.csv("content/202312-divvy-tripdata.csv")
+data_01_2024 <- read.csv("content/202401-divvy-tripdata.csv")
+data_02_2024 <- read.csv("content/202402-divvy-tripdata.csv")
+```
+
+
+#### Verificação da estrutura dos dados
+
+
+```{r}
+str(data_03_2023)
+str(data_04_2023)
+str(data_05_2023)
+str(data_06_2023)
+str(data_07_2023)
+str(data_08_2023)
+str(data_09_2023)
+str(data_10_2023)
+str(data_11_2023)
+str(data_12_2023)
+str(data_01_2024)
+str(data_02_2024)
+```
+
+
+<a id="processar"></a>
+
+# 3: Processar os Dados
+
+
+#### Unindo os dataframes e gerando um dataframe único com todos os dados
+
+
+Unimos todos o nosso conjunto de dados para gerar um único dataframe.
+Para isso usamos a função *rbind* para unir as estruturas.Assim obtemos um novo dataframe chamado de *cyclistic_data*.
+
+```{r}
+cyclistic_data <- rbind(data_03_2023, data_04_2023, data_05_2023, data_06_2023, data_07_2023,data_08_2023, data_09_2023, data_10_2023, data_11_2023, data_12_2023, data_01_2024, data_02_2024)
+```
+
+
+#### Visualização de um recorte de informações do dataframe com a função *datatable()*
+
+
+```{r}
+DT::datatable(
+  cyclistic_data%>%slice(1:30),
+  options = list(scrollX = TRUE, scrollY = TRUE)
+)
+```
+
+
+
+
+#### Numero total de registros, em linhas, do dataframe
+
+
+```{r}
+nrow(cyclistic_data)
+```
+
+Informações acerca da estrutura do dataframe
+
+
+```{r}
+str(cyclistic_data)
+```
+
+
+#### Limpando valores `NA`:
+
+
+Utilizamos a função *drop_na()* para eliminar registros no dataframe que possuam campos de variáveis vazios.
+
+
+```{r}
+cyclistic_data <- drop_na(cyclistic_data)
+
+```
+
+
+#### Número de registros após a remoção de valores `NA`:
+
+
+```{r}
+nrow(cyclistic_data)
+
+```
+
+
+verificando se todos os IDs de viagens são únicos:
+
+```{r}
+length(unique(cyclistic_data$ride_id))
+```
+
+Removendo linhas duplicadas no dataframe
+
+```{r}
+cyclistic_data <- cyclistic_data %>% distinct()
+```
+
+## Informações a serem investigadas na analise
+
+Para compreender como os membros e os usuários casuais utilizam as bicicletas de maneira diferente, desejamos investigar alguns aspectos com base nos dados disponíveis:
+
+* Qual é a duração média das viagens de cada grupo?
+
+* A duração média das viagens varia de acordo com os dias da semana ou os meses do ano?
+
+* Qual é o número total de viagens de cada grupo?
+
+* O número total de viagens varia de acordo com os dias da semana ou os meses do ano?
+
+* Por que os passageiros casuais iriam querer adquirir planos anuais da Cyclistic?
+
+
+Vamos extrair informações da coluna **started_at** para criar novas colunas relacionadas a Data e Hora de saída, usando o pacote *lubridate*.
+
+Criamos as seguintes colunas:
+
+* **horario_saida**: Horário de saída da base.
+
+* **mes_saida**: Mês de saída da base.
+
+* **dia_mes_saida**: Dia do mes da saída da base.
+
+* **dia_semana_saida**: Dia da semana da saída da base.
+
+* **duracao_viagem**: representa a duração da viagem.
+
+
+```{r}
+cyclistic_data$horario_saida <- lubridate:: hour(cyclistic_data$started_at)
+cyclistic_data$mes_saida <- format(as.Date(cyclistic_data$started_at), "%b")
+cyclistic_data$mes_saida <- str_to_title(format(as.Date(cyclistic_data$started_at), "%b"))
+cyclistic_data$dia_mes_saida <- format(as.Date(cyclistic_data$started_at), "%d")
+cyclistic_data$dia_semana_saida <- str_to_title(format(as.Date(cyclistic_data$started_at), "%A"))
+```
+
+A duração da viagem e dada pela diferença entre o instante de chegada e de saída para obter esse resultado usamos a função *diftime*
+
+```{r}
+cyclistic_data$duracao_viagem <- difftime(cyclistic_data$ended_at, cyclistic_data$started_at)
+```
+
+Visualizando a estrutura do dataframe
+
+```{r}
+str(cyclistic_data)
+```
+
+
+#### Convertendo o tipo da coluna *duracao_viagem* para numérico
+
+
+```{r}
+cyclistic_data$duracao_viagem <- as.numeric(as.character(cyclistic_data$duracao_viagem))
+
+is.numeric(cyclistic_data$duracao_viagem)
+```
+
+
+#### Removendo dados que não têm informação relevante ou que não têm informação:
+
+
+Nesse caso vamos remover um registro quando a *duracao_viagem* for menor ou igual a zero ou vazia.
+
+```{r}
+cyclistic_data <- cyclistic_data[!(cyclistic_data$duracao_viagem <= 0 | cyclistic_data$duracao_viagem == ""),]
+
+```
+
+Verificamos se houve alteração no número de registros
+
+
+```{r}
+nrow(cyclistic_data)
+
+```
+
+
+
+<a id="analisar"></a>
+
+# 4: Analise dos Dados
+
+
+Agora que dados estão armazenados e limpos adequadamente, partimos para análise em busca de respostas.
+
+
+#### Calculamos algumas informações estatísticas acerca da duração das viagens de ambos os grupos de clientes
+
+
+```{r}
+print(paste("Média da duração das viagens (em min):", round(mean(cyclistic_data$duracao_viagem)/60, 2)))
+print(paste("Mediana da duração das viagens (em min):", round(median(cyclistic_data$duracao_viagem)/60, 2)))
+print(paste("Duração máxima de uma viagem (em min):", round(max(cyclistic_data$duracao_viagem)/60, 2)))
+print(paste("Duração mínima de uma viagem (em seg):", round(min(cyclistic_data$duracao_viagem), 2)))
+```
+
+
+
+#### Duração e numero de viagens por grupo de usuários:
+
+
+Agrupamos os dois tipos de usuário e, usando a função *summarise()* e o operador *%>%* (pipe),  calculamos a duração média e numero total das viagens, referente a cada grupo de usuário.
+
+```{r}
+viagem_por_usuario <- cyclistic_data %>%
+  group_by(member_casual) %>%
+  dplyr::summarise(media_duracao = mean(duracao_viagem)/60, numero_viagens = length(duracao_viagem))
+
+print(viagem_por_usuario)
+
+```
+
+
+* Nessa primeira observação analítica, percebemos que os membros casuais viajam em media por mais tempo que os membros Cyclistic (*20,8 min vs 12,2 min*), entretanto o numero de viagens dos membros Cyclistic superam em 1.615.992 o numero de viagens realizadas por membro casuais.
+
+
+#### Visualização do resultado
+
+
+#### Gráficos da analise
+
+```{r}
+cyclistic_data %>%
+  group_by(member_casual) %>%
+  dplyr::summarize(numero_viagens = length(duracao_viagem)/1000000) %>%
+  ggplot(aes(x = member_casual, y=numero_viagens, fill=member_casual, color=member_casual)) +
+  geom_bar(stat='identity', position = 'dodge') +
+  theme_bw()+
+  labs(title = "Número de viagens", x = NULL, y = "Viagens (em Milhões)")
+```
+
+
+* Tempo de viagem por tipo de usuário:
+
+```{r}
+cyclistic_data %>%
+  group_by(member_casual) %>%
+  dplyr::summarize(media_duracao = mean(duracao_viagem)/60) %>%
+  ggplot(aes(x = member_casual, y=media_duracao, fill=member_casual, color=member_casual)) +
+  geom_bar(stat='identity', position = 'dodge') +
+  theme_bw()+
+  labs(title = "Tempo médio de viagens", x = NULL, y = "Tempo (em Minutos)")
+```
+
+```{r}
+cyclistic_data %>%
+  group_by(member_casual) %>%
+  dplyr::summarise(numero_viagens = length(duracao_viagem) / 1000000) %>%
+  mutate(percentual = numero_viagens / sum(numero_viagens) * 100) %>%
+  ggplot(aes(x = "", y = percentual, fill = member_casual)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  theme_void() +
+  labs(title = "Percentual do Número de Viagens por Tipo de Usuário",
+       subtitle = "Dados expressos em porcentagem",
+       fill = "Tipo de Usuário") +
+  geom_text(aes(label = paste0(round(percentual, 1), "%")), position = position_stack(vjust = 0.5))
+```
+
+
+#### Análise:
+
+* Em termos percentuais número total de viagens do grupo de membros Cyclistic é de *64,2%* do total de viagens geral; enquanto que dos Usuários Casuais é de *35,8%*.
+
+
+#### Analisaremos melhor os aspectos de uso dos clientes a partir do escopo de dados disponíveis.
+
+Verificamos a unicidade dos dados da coluna *mes_saida*:
+
+```{r}
+unique(cyclistic_data$mes_saida)
+```
+
+Ordenando a coluna com a função função *ordered()*:
+
+```{r}
+cyclistic_data$mes_saida <- ordered(cyclistic_data$mes_saida, levels = c("Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"))
+```
+
+
+####  Analise do número total de viagens de cada grupo de usuários por mês
+
+Total de viagens a cada mes:
+
+
+```{r}
+num_total<- cyclistic_data %>% 
+  group_by(member_casual, mes_saida) %>% 
+  dplyr::summarise(numero_viagens = length(duracao_viagem), .groups = 'drop')
+print(num_total)
+```
+
+
+Importamos o pacote scales para ajudar na edição dos gráficos
+
+```{r}
+library(scales)
+```
+
+
+```{r}
+ggplot(num_total, aes(x = mes_saida, y = numero_viagens, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  scale_y_continuous(breaks = scales::breaks_width(100000), labels = comma_format(big.mark = ".")) +
+  labs(x= NULL, y = "Total de Viagens", title = "Número total de Viagens por Mês", fill="Tipo de Usuário") +
+  theme(axis.title.y = element_text(size = 16, face = "bold"),
+        plot.title = element_text(size = 20, face = "bold"),
+        legend.title= element_text(size = 16, face = "bold",),
+        legend.text = element_text(size = 14))
+```
+
+
+#### Análise:
+ 
+* Percebe-se um pico no número de viagens de ambos os grupos de usuários nos meses de verão no hemisfério norte - de junho a agosto. 
+
+* No período do inverno do hemisfério norte, de dezembro a março, o número de viagens de usuários casuais é consideravelmente inferior ao número de viagens de membros, denotando uma característica de sazonalidade, que pode se dar pela temporada turística da cidade, no período de verão (de junho a agosto).
+
+
+#### Analise do tempo médio de viagens de cada grupo de usuários por mês
+
+Calculando a duracao media
+
+```{r}
+tempo_medio <- cyclistic_data %>% 
+  group_by(member_casual, mes_saida) %>% 
+  dplyr::summarise(duracao_media = mean(duracao_viagem)/60, .groups = 'drop')
+print(tempo_medio)
+```
+
+```{r}
+ggplot(tempo_medio, aes(x = mes_saida, y = duracao_media, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(x= NULL, y = "Tempo médio (min)", title = "Tempo médio (em min.) por Mês", fill="Tipo de Usuário") +
+  theme(axis.title.y = element_text(size = 16, face = "bold"),
+       plot.title = element_text(size = 20, face = "bold"),
+       legend.title= element_text(size = 16, face = "bold",),
+       legend.text = element_text(size = 14))
+```
+
+#### Análise:
+
+* Como Já vimos, o tempo médio de duração das viagens do grupo de membros Cyclistic é sempre inferior ao tempo médio do grupo de Usuários Casuais. Percebemos aqui também que o tempo médio das viagens dos membros Cyclistic possui menor oscilação ao longo dos meses, demonstrando um uso mais consistente dos membros nos 12 meses analisados.
+
+####  Analise do número total de viagens de cada grupo de usuários por dia da semana
+
+Verificação de duplicidade
+
+```{r}
+unique(cyclistic_data$dia_semana_saida)
+```
+
+```{r}
+cyclistic_data$dia_semana_saida <- ordered(cyclistic_data$dia_semana_saida, levels=c("Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"))
+```
+
+Total de viagens a cada dia:
+
+
+```{r}
+num_total_dias<- cyclistic_data %>%
+  group_by(member_casual, dia_semana_saida) %>% 
+  dplyr::summarise(numero_viagens_dia = length(duracao_viagem), .groups = 'drop')
+print(num_total_dias)
+```
+
+
+
+```{r}
+ggplot(num_total_dias, aes(x = dia_semana_saida, y = numero_viagens_dia, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  scale_y_continuous(breaks = scales::breaks_width(100000), labels = comma_format(big.mark = ".")) +
+  labs(x= NULL, y = "Total de Viagens", title = "Número total de Viagens por dia", fill="Tipo de Usuário") +
+  theme(axis.text.x = element_text(angle = 20, hjust=1,face = "bold"),
+        axis.title.y = element_text(size = 16, face = "bold"),
+        plot.title = element_text(size = 20, face = "bold"),
+        legend.title= element_text(size = 16, face = "bold",),
+        legend.text = element_text(size = 14))
+```
+
+
+#### Análise:
+
+* O número de viagens dos membros é maior durante os dias úteis, o que demonstra, mais uma vez, o uso consistente por parte dos membros.Já o número de viagens dos usuários casuais é maior nos finais de semana(Sábado-Domingo), o que denota um possível uso recreativo.
+
+
+
+#### Analise do tempo médio de viagem de cada grupo de usuários por mês
+
+Calculando a duração média
+
+
+```{r}
+tempo_medio_dia <- cyclistic_data %>% 
+  group_by(member_casual, dia_semana_saida) %>% 
+  dplyr::summarise(duracao_media_dia = mean(duracao_viagem)/60, .groups = 'drop')
+print(tempo_medio_dia)
+```
+
+```{r}
+ggplot(tempo_medio_dia, aes(x = dia_semana_saida, y = duracao_media_dia, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(x= NULL, y = "Tempo médio (min)", title = "Tempo médio (em min.) por dia", fill="Tipo de Usuário") +
+  theme(axis.text.x = element_text(angle = 20, hjust=1,face = "bold"),
+       axis.title.y = element_text(size = 16, face = "bold"),
+       plot.title = element_text(size = 20, face = "bold"),
+       legend.title= element_text(size = 16, face = "bold",),
+       legend.text = element_text(size = 14))
+```
+
+#### Análise:
+
+* Nos finais de semana a duração média das viagens do grupo de usuários casuais é maior (possível uso recreativo). A duração média das viagens de membros em dias úteis está em torno de 12 minutos com pouca varição.
+
+
+
+#### Analise do número total de viagens de cada grupo de usuários por horário do dia
+
+```{r}
+num_total_hora<- cyclistic_data %>%
+  group_by(member_casual, horario_saida) %>%
+  dplyr::summarise(numero_viagens_hora = length(duracao_viagem), .groups = 'drop')
+print(num_total_hora)
+```
+
+
+```{r}
+ggplot(num_total_hora, aes(x = horario_saida, y = numero_viagens_hora, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  scale_y_continuous(breaks = scales::breaks_width(100000), labels = comma_format(big.mark = ".")) +
+  labs(x= "Horário do dia", y = "Total de Viagens", title = "Número total de Viagens por horário", fill="Tipo de Usuário") +
+  theme(axis.title.y = element_text(size = 16, face = "bold"),
+        plot.title = element_text(size = 20, face = "bold"),
+        legend.title= element_text(size = 16, face = "bold",),
+        legend.text = element_text(size = 14))
+```
+
+
+* Percebemos a persistência do padrão de uso observado até aqui, os membros, em sua maioria, fazem uso mais intenso das bicicletas em horário comercial.
+
+
+#### Analise do tempo médio de viagem de cada grupo de usuários por horário do dia
+
+Calculando a duração media
+
+```{r}
+tempo_medio_hora <- cyclistic_data %>% 
+  group_by(member_casual, horario_saida) %>% 
+  dplyr::summarise(duracao_media_hora = mean(duracao_viagem)/60, .groups = 'drop')
+print(tempo_medio_hora)
+```
+
+```{r}
+ggplot(tempo_medio_hora, aes(x = horario_saida, y = duracao_media_hora, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(x= "Horário do dia", y = "Tempo médio (min)", title = "Tempo médio (em min.) por horário", fill="Tipo de Usuário") +
+  theme(axis.title.y = element_text(size = 16, face = "bold"),
+       plot.title = element_text(size = 20, face = "bold"),
+       legend.title= element_text(size = 16, face = "bold",),
+       legend.text = element_text(size = 14))
+```
+
+
+* O recorte da duração média dos passeios por horário do dia aumenta as evidencias ja observadas em recortes anteriores. O tempo de medio de duração dos passeios de usuários casuais é superior a duração média das viagens dos membros. Até aqui, após todos os estratos realizados com os dados, podemos qualificar o uso dos membros cyclistic, como um uso pragmático, muito provavelmente para fins de mobilidade até seu local de trabalho, estudo, ou ambiente de realização de atividade diárias.
+
+
+<a id="compartilhar"></a>
+
+# 5: Compartilhar
+
+```{r}
+mes_semana_hora <- cyclistic_data %>% 
+  group_by(horario_saida, dia_semana_saida, member_casual) %>% 
+  dplyr::summarize(num_total_graf = length(duracao_viagem), .groups = 'drop')
+```
+
+```{r}
+ggplot(mes_semana_hora, aes(x = dia_semana_saida, y = horario_saida, fill = num_total_graf)) +
+  geom_tile(color = "white", linewidth = 0.1) +
+  facet_wrap(~member_casual) +
+  scale_fill_gradient(high = "red", low = "blue") +
+  scale_y_continuous(trans = "reverse") + 
+  labs(x= NULL, y= "Hora do Dia", fill="Total Saídas") + 
+  ggtitle("Numero de Viagens: Dia x Horario") +
+  theme(axis.text.x = element_text(size = 8, face = "bold", angle = 30, hjust=1),
+        axis.title.y = element_text(size = 14, face = "bold"),
+        plot.title = element_text(size = 16, face = "bold"),
+        legend.title= element_text(size = 12, face = "bold"),
+        legend.text = element_text(size = 14))
+```
+
+* Os mapa de calor evidencia que o maior fluxo de deslocamentos ocorre em períodos diurnos, tanato em dias uteis quanto em finais de semana. De acordo com o mapa, os membros têm maior deslocamento ao longo do eixo horizontal que destaca os dias da semana, sendo quase constante nos dias uteis e horários de pico (eixo vertical). Os usuários casuais se deslocam em maior numero em dois dias específicos, sábado e domingo, preferencialmente em turno diurno, mas também avançando pelas primeiras 2 horas da noite.
+
+
+## Análise acerca do uso de estações e trajetos
+
+Compilando dados das estações de saída
+
+```{r}
+estacoes_saida <- cyclistic_data %>% 
+  select(estacao_id = start_station_id, 
+  estacao_nome = start_station_name, 
+  estacao_lat = start_lat, 
+  estacao_long = start_lng) %>%
+    distinct(estacao_id, .keep_all=TRUE)
+```
+
+Número de estações de saída
+
+```{r}
+nrow(estacoes_saida)
+```
+
+Compilando dados das estações de chegada
+
+```{r}
+estacoes_chegada <- cyclistic_data %>% 
+  select(estacao_id = end_station_id, 
+  estacao_nome = end_station_name, 
+  estacao_lat = end_lat, 
+  estacao_long = end_lng) %>%
+    distinct(estacao_id, .keep_all=TRUE)
+```
+
+Número de estações de chegada
+
+```{r}
+nrow(estacoes_chegada)
+```
+
+
+Unimos os dataframes com base no ID de estacao:
+
+```{r}
+estacoes <- union(estacoes_saida, estacoes_chegada) %>% 
+distinct(estacao_id, .keep_all=TRUE)
+```
+
+```{r}
+nrow(estacoes)
+```
+
+Definimos nossa variável **rotas** utilizando filtro para selecionas IDs de saída e chegada diferentes e válidos.
+
+```{r}
+rotas <- cyclistic_data %>% 
+  filter(start_station_id != "" & end_station_id != "") %>%
+  group_by(start_station_id, start_lat, start_lng, start_station_name, end_lat, end_lng, end_station_name, member_casual)%>% 
+  dplyr::summarise(total = n(), .groups = "drop")
+```
+
+```{r}
+nrow(rotas)
+```
+
+Separamos as informações de rotas por tipo de usuário
+     
+```{r}
+casual_rota <- rotas %>% filter(member_casual == "casual")
+member_rota <- rotas %>% filter(member_casual == "member")
+```
+
+```{r}
+print(paste("Numero de rotas de usuários casuais: ", nrow(casual_rota)))
+print(paste("Numero de rotas de usuários Membros: ", nrow(member_rota)))
+```
+
+* Top 10 rotas mais utilizadas pelos membros Cyclistic:
+
+```{r}
+top_member_rota <- member_rota %>%
+  arrange(desc(total)) %>%
+  slice(1:10)
+```
+
+```{r}
+DT::datatable(
+  top_member_rota,
+  options = list(scrollX = TRUE, scrollY = TRUE)
+)
+```
+
+* Top 10 rotas mais utilizadas pelos usuários casuais:
+
+```{r}
+top_casual_rota <- casual_rota %>%
+  arrange(desc(total)) %>%
+  slice(1:10)
+
+```
+
+```{r}
+DT::datatable(
+  top_casual_rota,
+  options = list(scrollX = TRUE, scrollY = TRUE)
+)
+```
+
+### Evidências e conclusões
+
+#### 1.Membros Clyclistic
+
+* Como foi extensamente explorado e analisado nos dados, chegamos a uma forte evidência de que esse grupo de usuário faz uso dos serviços como meio de mobilidade para realizar suas tarefas rotineiras.Como já exposto, podemos qualificar o uso dos membros cyclistic, como um uso pragmático, muito provavelmente para fins de deslocamento até seu local de trabalho, estudo, ou ambiente de realização de atividade diárias.
+
+
+#### 2.Usuários Casuais
+
+* Os recortes analisados evidenciaram que tempo de medio de duração dos passeios de usuários casuais é superior ao tempo medio de duração das viagens dos membros Cyclistic.A demanda desses clientes apresenta uma característica sazonal, com uma sobredemanda no período de verão no hemisfério norte e uma subdemanda no período de inverno. Esse comportamento pode estar associada às  características climáticas de ambas as estações, indicando possível movimentação turística ou ferias de verão. Além disso, fazem viajem mais longas e em maior numero durante os finais de semana. Assim, qualificamos o uso dos serviços por parte desse grupo como uso ocasional, possivelmente como opção de lazer.
+
+
+<a id="agir"></a>
+
+# 6: Agir
+
+
+### Medidas para Melhorar o Faturamento com Membros Cyclistic e Usuários Casuais
+
+#### 1.Membros Cyclistic:
+
+* Expandir a cobertura de estações de bicicletas em áreas com maior demanda, como áreas residenciais densas e outros centros comerciais.
+
+* Implementar programas de incentivo, como pontos de recompensa por viagens frequentes ou descontos em parceiros comerciais.
+
+* Realizar campanhas de marketing direcionadas para promover o uso das bicicletas como meio de transporte sustentável e econômico para o dia-a-dia.
+
+#### 2.Usuários Casuais:
+
+
+* Oferecer descontos em planos de assinatura semestral ou anual para incentivar a fidelidade.
+
+* Oferecer opções de aluguel de bicicletas por hora, por passeio ou por dia, flexibilizando os tipos de serviço, visando atrair mais usuários ocasionais.
+
+* Ajustar os preços sazonalmente, oferecendo descontos ou promoções durante os períodos de baixa demanda, como o como o inverno.
+
+* Implementar programas de parceria com empresas locais, hotéis e atrações turísticas para oferecer descontos ou pacotes especiais para os turistas durante os períodos de alta demanda.
+
+* Realizar eventos e passeios organizados para promover o uso das bicicletas como uma opção sustentável de locomoção diária, além de lazer e turismo durante os finais de semana e feriados.
+
+* Desenvolver um aplicativo mobile que vincule os deslocamentos do usuário a  um ID único - que ofereça opção de mapeamento e armazenamento de informações acerca da viajem do usuário`¹`- possibilitando que se estabeleça metas e que o usuários possa compartilhar suas viagens  e resultados nas redes sociais.
+
+`1. Observar a legislação acerca do uso de dados vigente no país ou região.`
+
