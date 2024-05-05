@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Matheus Batista" />
+
+<meta name="date" content="2024-03-25" />
+
+<title>Cyclistic_bike_share_Projeto</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.33/datatables.js"></script>
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #204a87; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #204a87; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Cyclistic_bike_share_Projeto</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="content.html">Main page</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Cyclistic_bike_share_Projeto</h1>
+<h4 class="author">Matheus Batista</h4>
+<h4 class="date">2024-03-25</h4>
+
+</div>
+
+
+<div id="estudo-de-caso-cyclistic" class="section level3">
+<h3>Estudo de Caso Cyclistic</h3>
+<div
+id="o-fluxo-de-trabalho-de-análise-de-dados-é-o-seguinte-perguntar-preparar-processar-analisar-e-compartilhar-combinados-neste-caso-e-agir."
+class="section level4">
+<h4><em>O fluxo de trabalho de análise de dados é o seguinte: Perguntar,
+Preparar, Processar, Analisar e Compartilhar (combinados neste caso), e
+Agir.</em></h4>
+</div>
+</div>
+<div id="índice" class="section level1">
+<h1>Índice</h1>
+<ul>
+<li><a href="#introducao">Introdução</a></li>
+<li><a href="#perguntar">1: Perguntar</a></li>
+<li><a href="#preparar">2: Preparar</a></li>
+<li><a href="#processar">3: Processar</a></li>
+<li><a href="#analisar">4: Analisar</a></li>
+<li><a href="#compartilhar">5: Compartilhar</a></li>
+<li><a href="#agir">6: Agir</a></li>
+</ul>
+<p><a id="introducao"></a></p>
+</div>
+<div id="introdução" class="section level1">
+<h1>Introdução</h1>
+<p>Este caderno é um projeto de conclusão de curso da Certificação
+Profissional de Análise de Dados do Google.</p>
+<p>O projeto consiste em um estudo de caso sobre a empresa Cyclistic, um
+serviço de compartilhamento de bicicletas na cidade de Chicago.</p>
+<p>A Cyclistic opera com uma frota de 5.824 bicicletas e uma rede de 692
+estações em Chicago. A empresa oferece dois modelos de serviço: passes
+diários, para viagem única ou dia inteiro, e assinaturas anuais.</p>
+<p>Os clientes que optam pelas assinaturas anuais são chamados de
+<em>“membros Cyclistic”</em>. Aqueles que utilizam as bicicletas por
+meio dos passes diários são denominados <em>“usuários casuais”</em>.</p>
+<p>Os analistas financeiros da Cyclistic concluíram que os membros
+anuais são mais rentáveis do que os usuários casuais. Lily Moreno,
+diretora de marketing da Cyclistic, acredita que maximizar o número de
+membros anuais será fundamental para o crescimento futuro da empresa. Em
+vez de direcionar uma campanha de marketing para atrair novos clientes,
+ela vê uma oportunidade de converter os usuários casuais em membros. Ela
+observa que os ciclistas casuais já estão cientes do programa Cyclistic
+e optaram pela empresa para suas necessidades de mobilidade.</p>
+<p>Para orientar a análise dos dados, este projeto seguira as seis
+etapas de análise de dados recomendadas pelo Google: perguntar,
+preparar, processar, analisar, compartilhar e agir.</p>
+<p><a id="perguntar"></a></p>
+</div>
+<div id="perguntar" class="section level1">
+<h1>1: Perguntar</h1>
+<p>Os principais questionamentos que nortearão a analise são acerca de
+compreender como os membros Cyclistic e os usuários casuais usam as
+bicicletas de maneira diferente.</p>
+<p>Stakeholders: As partes interessadas são a diretoria de marketing e a
+equipe executiva da Cyclistic.</p>
+<p><a id="preparar"></a></p>
+</div>
+<div id="preparar-os-dados" class="section level1">
+<h1>2: Preparar os Dados</h1>
+<div id="sobre-os-dados-utilizados" class="section level2">
+<h2>Sobre os Dados Utilizados</h2>
+<p>Usamos, para este projeto, os dados dos últimos 12 meses de viagens
+da Cyclistic disponibilizados pela Motivate International Inc -
+Hospedado no seguinte endereço: <a
+href="https://divvy-tripdata.s3.amazonaws.com/index.html">https://divvy-tripdata.s3.amazonaws.com/index.html</a></p>
+<ul>
+<li><p>Os dados estão divididos em 12 arquivos, cada um referente a um
+mês do ano, sendo o ultimo intervalo de 12 meses completos considerados
+para o projeto de Mar/2023 a Fev/2024).</p></li>
+<li><p>Objetivamente, o registro de cada viagem é composto por um ID
+(único) da viagem, horário do início e término da viagem, localização
+das estações de início e término da viagem, tipo de bicicleta utilizada
+e tipo de usuário que realizou a viagem (membro Cyclistic ou usuário
+casual).</p></li>
+</ul>
+<p>Erros e Problemas de Dados: Os dados têm problemas com dados
+duplicados, valores nulos e dados inválidos.</p>
+<p>Ferramentas de analise: Trabalharemos com a linguagem R devido à sua
+flexibilidade e ao fato de termos um grande conjunto de dados.</p>
+<div id="bibliotecas" class="section level3">
+<h3>Bibliotecas</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co">#ajuda a manipular dados</span></span></code></pre></div>
+<pre><code>## ── Attaching core tidyverse packages ─────
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ──── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)  <span class="co">#ajuda a manipular atributos de data</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)  <span class="co">#ajuda a visualizar dados</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">library</span>(readr) <span class="co">#ler arquivos csv</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">library</span>(plyr) <span class="co">#função bind</span></span></code></pre></div>
+<pre><code>## Warning: package &#39;plyr&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## ------------------------------------------------------------------------------
+## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)
+## ------------------------------------------------------------------------------
+## 
+## Attaching package: &#39;plyr&#39;
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     compact</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)<span class="co">#Função summarize</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span></code></pre></div>
+<pre><code>## Warning: package &#39;DescTools&#39; was built under R version 4.3.3</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">library</span>(DT)</span></code></pre></div>
+<pre><code>## Warning: package &#39;DT&#39; was built under R version 4.3.3</code></pre>
+<div id="carregando-os-dados" class="section level4">
+<h4>Carregando os Dados</h4>
+<p>Atribuímos os arquivos dos dados às variáveis relativas a cada mês do
+ano</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>data_03_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202303-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>data_04_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202304-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>data_05_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202305-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>data_06_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202306-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>data_07_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202307-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>data_08_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202308-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>data_09_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202309-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>data_10_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202310-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>data_11_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202311-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>data_12_2023 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202312-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>data_01_2024 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202401-divvy-tripdata.csv&quot;</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>data_02_2024 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;content/202402-divvy-tripdata.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="verificação-da-estrutura-dos-dados" class="section level4">
+<h4>Verificação da estrutura dos dados</h4>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">str</span>(data_03_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    258678 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;6842AA605EE9FBB3&quot; &quot;F984267A75B99A8C&quot; &quot;FF7CF57CFE026D02&quot; &quot;6B61B916032CB6D6&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-03-16 08:20:34&quot; &quot;2023-03-04 14:07:06&quot; &quot;2023-03-31 12:28:09&quot; &quot;2023-03-22 14:09:08&quot; ...
+##  $ ended_at          : chr  &quot;2023-03-16 08:22:52&quot; &quot;2023-03-04 14:15:31&quot; &quot;2023-03-31 12:38:47&quot; &quot;2023-03-22 14:24:51&quot; ...
+##  $ start_station_name: chr  &quot;Clark St &amp; Armitage Ave&quot; &quot;Public Rack - Kedzie Ave &amp; Argyle St&quot; &quot;Orleans St &amp; Chestnut St (NEXT Apts)&quot; &quot;Desplaines St &amp; Kinzie St&quot; ...
+##  $ start_station_id  : chr  &quot;13146&quot; &quot;491&quot; &quot;620&quot; &quot;TA1306000003&quot; ...
+##  $ end_station_name  : chr  &quot;Larrabee St &amp; Webster Ave&quot; &quot;&quot; &quot;Clark St &amp; Randolph St&quot; &quot;Sheffield Ave &amp; Kingsbury St&quot; ...
+##  $ end_station_id    : chr  &quot;13193&quot; &quot;&quot; &quot;TA1305000030&quot; &quot;13154&quot; ...
+##  $ start_lat         : num  41.9 42 41.9 41.9 41.9 ...
+##  $ start_lng         : num  -87.6 -87.7 -87.6 -87.6 -87.7 ...
+##  $ end_lat           : num  41.9 42 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.6 -87.7 -87.6 -87.7 -87.7 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">str</span>(data_04_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    426590 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;8FE8F7D9C10E88C7&quot; &quot;34E4ED3ADF1D821B&quot; &quot;5296BF07A2F77CB5&quot; &quot;40759916B76D5D52&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-04-02 08:37:28&quot; &quot;2023-04-19 11:29:02&quot; &quot;2023-04-19 08:41:22&quot; &quot;2023-04-19 13:31:30&quot; ...
+##  $ ended_at          : chr  &quot;2023-04-02 08:41:37&quot; &quot;2023-04-19 11:52:12&quot; &quot;2023-04-19 08:43:22&quot; &quot;2023-04-19 13:35:09&quot; ...
+##  $ start_station_name: chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ start_station_id  : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ end_station_name  : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ end_station_id    : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ start_lat         : num  41.8 41.9 41.9 41.9 41.9 ...
+##  $ start_lng         : num  -87.6 -87.7 -87.7 -87.7 -87.7 ...
+##  $ end_lat           : num  41.8 41.9 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.6 -87.7 -87.7 -87.7 -87.6 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">str</span>(data_05_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    604827 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;0D9FA920C3062031&quot; &quot;92485E5FB5888ACD&quot; &quot;FB144B3FC8300187&quot; &quot;DDEB93BC2CE9AA77&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-05-07 19:53:48&quot; &quot;2023-05-06 18:54:08&quot; &quot;2023-05-21 00:40:21&quot; &quot;2023-05-10 16:47:01&quot; ...
+##  $ ended_at          : chr  &quot;2023-05-07 19:58:32&quot; &quot;2023-05-06 19:03:35&quot; &quot;2023-05-21 00:44:36&quot; &quot;2023-05-10 16:59:52&quot; ...
+##  $ start_station_name: chr  &quot;Southport Ave &amp; Belmont Ave&quot; &quot;Southport Ave &amp; Belmont Ave&quot; &quot;Halsted St &amp; 21st St&quot; &quot;Carpenter St &amp; Huron St&quot; ...
+##  $ start_station_id  : chr  &quot;13229&quot; &quot;13229&quot; &quot;13162&quot; &quot;13196&quot; ...
+##  $ end_station_name  : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;Damen Ave &amp; Cortland St&quot; ...
+##  $ end_station_id    : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;13133&quot; ...
+##  $ start_lat         : num  41.9 41.9 41.9 41.9 42 ...
+##  $ start_lng         : num  -87.7 -87.7 -87.6 -87.7 -87.7 ...
+##  $ end_lat           : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.7 -87.7 -87.7 -87.7 -87.7 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">str</span>(data_06_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    719618 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;6F1682AC40EB6F71&quot; &quot;622A1686D64948EB&quot; &quot;3C88859D926253B4&quot; &quot;EAD8A5E0259DEC88&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-06-05 13:34:12&quot; &quot;2023-06-05 01:30:22&quot; &quot;2023-06-20 18:15:49&quot; &quot;2023-06-19 14:56:00&quot; ...
+##  $ ended_at          : chr  &quot;2023-06-05 14:31:56&quot; &quot;2023-06-05 01:33:06&quot; &quot;2023-06-20 18:32:05&quot; &quot;2023-06-19 15:00:35&quot; ...
+##  $ start_station_name: chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ start_station_id  : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ end_station_name  : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ end_station_id    : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ start_lat         : num  41.9 41.9 42 42 42 ...
+##  $ start_lng         : num  -87.7 -87.7 -87.7 -87.7 -87.7 ...
+##  $ end_lat           : num  41.9 41.9 41.9 42 42 ...
+##  $ end_lng           : num  -87.7 -87.7 -87.6 -87.7 -87.7 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">str</span>(data_07_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    767650 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;9340B064F0AEE130&quot; &quot;D1460EE3CE0D8AF8&quot; &quot;DF41BE31B895A25E&quot; &quot;9624A293749EF703&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;classic_bike&quot; &quot;classic_bike&quot; &quot;electric_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-07-23 20:06:14&quot; &quot;2023-07-23 17:05:07&quot; &quot;2023-07-23 10:14:53&quot; &quot;2023-07-21 08:27:44&quot; ...
+##  $ ended_at          : chr  &quot;2023-07-23 20:22:44&quot; &quot;2023-07-23 17:18:37&quot; &quot;2023-07-23 10:24:29&quot; &quot;2023-07-21 08:32:40&quot; ...
+##  $ start_station_name: chr  &quot;Kedzie Ave &amp; 110th St&quot; &quot;Western Ave &amp; Walton St&quot; &quot;Western Ave &amp; Walton St&quot; &quot;Racine Ave &amp; Randolph St&quot; ...
+##  $ start_station_id  : chr  &quot;20204&quot; &quot;KA1504000103&quot; &quot;KA1504000103&quot; &quot;13155&quot; ...
+##  $ end_station_name  : chr  &quot;Public Rack - Racine Ave &amp; 109th Pl&quot; &quot;Milwaukee Ave &amp; Grand Ave&quot; &quot;Damen Ave &amp; Pierce Ave&quot; &quot;Clinton St &amp; Madison St&quot; ...
+##  $ end_station_id    : chr  &quot;877&quot; &quot;13033&quot; &quot;TA1305000041&quot; &quot;TA1305000032&quot; ...
+##  $ start_lat         : num  41.7 41.9 41.9 41.9 42 ...
+##  $ start_lng         : num  -87.7 -87.7 -87.7 -87.7 -87.7 ...
+##  $ end_lat           : num  41.7 41.9 41.9 41.9 42 ...
+##  $ end_lng           : num  -87.7 -87.6 -87.7 -87.6 -87.6 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">str</span>(data_08_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    771693 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;903C30C2D810A53B&quot; &quot;F2FB18A98E110A2B&quot; &quot;D0DEC7C94E4663DA&quot; &quot;E0DDDC5F84747ED9&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-08-19 15:41:53&quot; &quot;2023-08-18 15:30:18&quot; &quot;2023-08-30 16:15:08&quot; &quot;2023-08-30 16:24:07&quot; ...
+##  $ ended_at          : chr  &quot;2023-08-19 15:53:36&quot; &quot;2023-08-18 15:45:25&quot; &quot;2023-08-30 16:27:37&quot; &quot;2023-08-30 16:33:34&quot; ...
+##  $ start_station_name: chr  &quot;LaSalle St &amp; Illinois St&quot; &quot;Clark St &amp; Randolph St&quot; &quot;Clark St &amp; Randolph St&quot; &quot;Wells St &amp; Elm St&quot; ...
+##  $ start_station_id  : chr  &quot;13430&quot; &quot;TA1305000030&quot; &quot;TA1305000030&quot; &quot;KA1504000135&quot; ...
+##  $ end_station_name  : chr  &quot;Clark St &amp; Elm St&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ end_station_id    : chr  &quot;TA1307000039&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ start_lat         : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ start_lng         : num  -87.6 -87.6 -87.6 -87.6 -87.6 ...
+##  $ end_lat           : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.6 -87.6 -87.6 -87.6 -87.7 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">str</span>(data_09_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    666371 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;011C1903BF4E2E28&quot; &quot;87DB80E048A1BF9F&quot; &quot;7C2EB7AF669066E3&quot; &quot;57D197B010269CE3&quot; ...
+##  $ rideable_type     : chr  &quot;classic_bike&quot; &quot;classic_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-09-23 00:27:50&quot; &quot;2023-09-02 09:26:43&quot; &quot;2023-09-25 18:30:11&quot; &quot;2023-09-13 15:30:49&quot; ...
+##  $ ended_at          : chr  &quot;2023-09-23 00:33:27&quot; &quot;2023-09-02 09:38:19&quot; &quot;2023-09-25 18:41:39&quot; &quot;2023-09-13 15:39:18&quot; ...
+##  $ start_station_name: chr  &quot;Halsted St &amp; Wrightwood Ave&quot; &quot;Clark St &amp; Drummond Pl&quot; &quot;Financial Pl &amp; Ida B Wells Dr&quot; &quot;Clark St &amp; Drummond Pl&quot; ...
+##  $ start_station_id  : chr  &quot;TA1309000061&quot; &quot;TA1307000142&quot; &quot;SL-010&quot; &quot;TA1307000142&quot; ...
+##  $ end_station_name  : chr  &quot;Sheffield Ave &amp; Wellington Ave&quot; &quot;Racine Ave &amp; Fullerton Ave&quot; &quot;Racine Ave &amp; 15th St&quot; &quot;Racine Ave &amp; Belmont Ave&quot; ...
+##  $ end_station_id    : chr  &quot;TA1307000052&quot; &quot;TA1306000026&quot; &quot;13304&quot; &quot;TA1308000019&quot; ...
+##  $ start_lat         : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ start_lng         : num  -87.6 -87.6 -87.6 -87.6 -87.6 ...
+##  $ end_lat           : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.7 -87.7 -87.7 -87.7 -87.7 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">str</span>(data_10_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    537113 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;4449097279F8BBE7&quot; &quot;9CF060543CA7B439&quot; &quot;667F21F4D6BDE69C&quot; &quot;F92714CC6B019B96&quot; ...
+##  $ rideable_type     : chr  &quot;classic_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-10-08 10:36:26&quot; &quot;2023-10-11 17:23:59&quot; &quot;2023-10-12 07:02:33&quot; &quot;2023-10-24 19:13:03&quot; ...
+##  $ ended_at          : chr  &quot;2023-10-08 10:49:19&quot; &quot;2023-10-11 17:36:08&quot; &quot;2023-10-12 07:06:53&quot; &quot;2023-10-24 19:18:29&quot; ...
+##  $ start_station_name: chr  &quot;Orleans St &amp; Chestnut St (NEXT Apts)&quot; &quot;Desplaines St &amp; Kinzie St&quot; &quot;Orleans St &amp; Chestnut St (NEXT Apts)&quot; &quot;Desplaines St &amp; Kinzie St&quot; ...
+##  $ start_station_id  : chr  &quot;620&quot; &quot;TA1306000003&quot; &quot;620&quot; &quot;TA1306000003&quot; ...
+##  $ end_station_name  : chr  &quot;Sheffield Ave &amp; Webster Ave&quot; &quot;Sheffield Ave &amp; Webster Ave&quot; &quot;Franklin St &amp; Lake St&quot; &quot;Franklin St &amp; Lake St&quot; ...
+##  $ end_station_id    : chr  &quot;TA1309000033&quot; &quot;TA1309000033&quot; &quot;TA1307000111&quot; &quot;TA1307000111&quot; ...
+##  $ start_lat         : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ start_lng         : num  -87.6 -87.6 -87.6 -87.6 -87.6 ...
+##  $ end_lat           : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.7 -87.7 -87.6 -87.6 -87.6 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">str</span>(data_11_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    362518 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;4EAD8F1AD547356B&quot; &quot;6322270563BF5470&quot; &quot;B37BDE091ECA38E0&quot; &quot;CF0CA5DD26E4F90E&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-11-30 21:50:05&quot; &quot;2023-11-03 09:44:02&quot; &quot;2023-11-30 11:39:44&quot; &quot;2023-11-08 10:01:45&quot; ...
+##  $ ended_at          : chr  &quot;2023-11-30 22:13:27&quot; &quot;2023-11-03 10:17:15&quot; &quot;2023-11-30 11:40:08&quot; &quot;2023-11-08 10:27:05&quot; ...
+##  $ start_station_name: chr  &quot;Millennium Park&quot; &quot;Broadway &amp; Sheridan Rd&quot; &quot;State St &amp; Pearson St&quot; &quot;Theater on the Lake&quot; ...
+##  $ start_station_id  : chr  &quot;13008&quot; &quot;13323&quot; &quot;TA1307000061&quot; &quot;TA1308000001&quot; ...
+##  $ end_station_name  : chr  &quot;Pine Grove Ave &amp; Waveland Ave&quot; &quot;Broadway &amp; Sheridan Rd&quot; &quot;State St &amp; Pearson St&quot; &quot;Theater on the Lake&quot; ...
+##  $ end_station_id    : chr  &quot;TA1307000150&quot; &quot;13323&quot; &quot;TA1307000061&quot; &quot;TA1308000001&quot; ...
+##  $ start_lat         : num  41.9 42 41.9 41.9 41.9 ...
+##  $ start_lng         : num  -87.6 -87.7 -87.6 -87.6 -87.6 ...
+##  $ end_lat           : num  41.9 42 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.6 -87.6 -87.6 -87.6 -87.6 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">str</span>(data_12_2023)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    224073 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;C9BD54F578F57246&quot; &quot;CDBD92F067FA620E&quot; &quot;ABC0858E52CBFC84&quot; &quot;F44B6F0E8F76DC90&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-12-02 18:44:01&quot; &quot;2023-12-02 18:48:19&quot; &quot;2023-12-24 01:56:32&quot; &quot;2023-12-24 10:58:12&quot; ...
+##  $ ended_at          : chr  &quot;2023-12-02 18:47:51&quot; &quot;2023-12-02 18:54:48&quot; &quot;2023-12-24 02:04:09&quot; &quot;2023-12-24 11:03:04&quot; ...
+##  $ start_station_name: chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ start_station_id  : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ end_station_name  : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ end_station_id    : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ start_lat         : num  41.9 41.9 41.9 42 41.9 ...
+##  $ start_lng         : num  -87.7 -87.7 -87.6 -87.7 -87.6 ...
+##  $ end_lat           : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.7 -87.6 -87.6 -87.7 -87.6 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">str</span>(data_01_2024)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    144873 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;C1D650626C8C899A&quot; &quot;EECD38BDB25BFCB0&quot; &quot;F4A9CE78061F17F7&quot; &quot;0A0D9E15EE50B171&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : chr  &quot;2024-01-12 15:30:27&quot; &quot;2024-01-08 15:45:46&quot; &quot;2024-01-27 12:27:19&quot; &quot;2024-01-29 16:26:17&quot; ...
+##  $ ended_at          : chr  &quot;2024-01-12 15:37:59&quot; &quot;2024-01-08 15:52:59&quot; &quot;2024-01-27 12:35:19&quot; &quot;2024-01-29 16:56:06&quot; ...
+##  $ start_station_name: chr  &quot;Wells St &amp; Elm St&quot; &quot;Wells St &amp; Elm St&quot; &quot;Wells St &amp; Elm St&quot; &quot;Wells St &amp; Randolph St&quot; ...
+##  $ start_station_id  : chr  &quot;KA1504000135&quot; &quot;KA1504000135&quot; &quot;KA1504000135&quot; &quot;TA1305000030&quot; ...
+##  $ end_station_name  : chr  &quot;Kingsbury St &amp; Kinzie St&quot; &quot;Kingsbury St &amp; Kinzie St&quot; &quot;Kingsbury St &amp; Kinzie St&quot; &quot;Larrabee St &amp; Webster Ave&quot; ...
+##  $ end_station_id    : chr  &quot;KA1503000043&quot; &quot;KA1503000043&quot; &quot;KA1503000043&quot; &quot;13193&quot; ...
+##  $ start_lat         : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ start_lng         : num  -87.6 -87.6 -87.6 -87.6 -87.7 ...
+##  $ end_lat           : num  41.9 41.9 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.6 -87.6 -87.6 -87.6 -87.6 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">str</span>(data_02_2024)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    223164 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;FCB05EB1758F85E8&quot; &quot;7FB986AD5D3DE9D6&quot; &quot;40CA13E15B5B470D&quot; &quot;D47A1660919E8861&quot; ...
+##  $ rideable_type     : chr  &quot;classic_bike&quot; &quot;classic_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : chr  &quot;2024-02-03 14:14:18&quot; &quot;2024-02-05 21:10:06&quot; &quot;2024-02-05 15:10:44&quot; &quot;2024-02-15 12:40:34&quot; ...
+##  $ ended_at          : chr  &quot;2024-02-03 14:21:00&quot; &quot;2024-02-05 21:15:44&quot; &quot;2024-02-05 15:12:32&quot; &quot;2024-02-15 12:44:24&quot; ...
+##  $ start_station_name: chr  &quot;Clark St &amp; Newport St&quot; &quot;Michigan Ave &amp; Washington St&quot; &quot;Leavitt St &amp; Armitage Ave&quot; &quot;Southport Ave &amp; Waveland Ave&quot; ...
+##  $ start_station_id  : chr  &quot;632&quot; &quot;13001&quot; &quot;TA1309000029&quot; &quot;13235&quot; ...
+##  $ end_station_name  : chr  &quot;Southport Ave &amp; Waveland Ave&quot; &quot;Wabash Ave &amp; Grand Ave&quot; &quot;Milwaukee Ave &amp; Wabansia Ave&quot; &quot;Southport Ave &amp; Belmont Ave&quot; ...
+##  $ end_station_id    : chr  &quot;13235&quot; &quot;TA1307000117&quot; &quot;13243&quot; &quot;13229&quot; ...
+##  $ start_lat         : num  41.9 41.9 41.9 41.9 41.8 ...
+##  $ start_lng         : num  -87.7 -87.6 -87.7 -87.7 -87.6 ...
+##  $ end_lat           : num  41.9 41.9 41.9 41.9 41.8 ...
+##  $ end_lng           : num  -87.7 -87.6 -87.7 -87.7 -87.6 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+<p><a id="processar"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="processar-os-dados" class="section level1">
+<h1>3: Processar os Dados</h1>
+<div
+id="unindo-os-dataframes-e-gerando-um-dataframe-único-com-todos-os-dados"
+class="section level4">
+<h4>Unindo os dataframes e gerando um dataframe único com todos os
+dados</h4>
+<p>Unimos todos o nosso conjunto de dados para gerar um único dataframe.
+Para isso usamos a função <em>rbind</em> para unir as estruturas.Assim
+obtemos um novo dataframe chamado de <em>cyclistic_data</em>.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>cyclistic_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(data_03_2023, data_04_2023, data_05_2023, data_06_2023, data_07_2023,data_08_2023, data_09_2023, data_10_2023, data_11_2023, data_12_2023, data_01_2024, data_02_2024)</span></code></pre></div>
+</div>
+<div
+id="visualização-de-um-recorte-de-informações-do-dataframe-com-a-função-datatable"
+class="section level4">
+<h4>Visualização de um recorte de informações do dataframe com a função
+<em>datatable()</em></h4>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>  cyclistic_data<span class="sc">%&gt;%</span><span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>),</span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(<span class="at">scrollX =</span> <span class="cn">TRUE</span>, <span class="at">scrollY =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-c19c5decec1b8497afa0" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c19c5decec1b8497afa0">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"],["6842AA605EE9FBB3","F984267A75B99A8C","FF7CF57CFE026D02","6B61B916032CB6D6","E55E61A5F1260040","123AAD676850F53C","5929D3080983AF4F","B2624BAEDDDA3FB1","979C41EAC356278F","6C1DCA9593CA8F5F","74FA89B21DC5856D","FBDE4914FD9CBB92","C8A1A1A8CD23C9EF","66E9299F769DA880","B783A22C8C33115C","106A5EAF32F1B4F5","100EE4CDE868CEBC","E6B41D39CBA26BA7","824392AF00330966","147943A31717D1CA","93BD338DC705439A","6323A56720D04309","038B08DB8578B9BC","7A53778CD3D75211","76DC01CFEDDC0192","C7B57466D6B7D367","602ECE39E0C7D9C7","509322A8471AF1B0","5CC34320A454988A","01B4F2F93556A09F"],["electric_bike","electric_bike","classic_bike","classic_bike","electric_bike","classic_bike","classic_bike","docked_bike","classic_bike","classic_bike","docked_bike","electric_bike","electric_bike","classic_bike","classic_bike","classic_bike","classic_bike","classic_bike","classic_bike","electric_bike","classic_bike","classic_bike","electric_bike","docked_bike","electric_bike","electric_bike","classic_bike","electric_bike","classic_bike","classic_bike"],["2023-03-16 08:20:34","2023-03-04 14:07:06","2023-03-31 12:28:09","2023-03-22 14:09:08","2023-03-09 07:15:00","2023-03-22 17:47:02","2023-03-08 19:58:44","2023-03-22 17:28:24","2023-03-16 19:31:14","2023-03-16 17:33:50","2023-03-16 10:17:35","2023-03-13 17:51:32","2023-03-24 10:27:07","2023-03-05 13:29:49","2023-03-26 07:29:55","2023-03-15 06:26:31","2023-03-02 12:29:10","2023-03-02 16:37:41","2023-03-04 11:05:32","2023-03-10 17:58:13","2023-03-12 17:48:44","2023-03-02 02:10:15","2023-03-23 15:25:39","2023-03-29 16:51:59","2023-03-03 16:38:01","2023-03-08 06:21:45","2023-03-20 20:08:35","2023-03-18 02:37:44","2023-03-01 09:51:27","2023-03-25 20:29:57"],["2023-03-16 08:22:52","2023-03-04 14:15:31","2023-03-31 12:38:47","2023-03-22 14:24:51","2023-03-09 07:26:00","2023-03-22 18:01:29","2023-03-08 20:05:39","2023-03-22 17:50:24","2023-03-16 19:41:01","2023-03-16 17:45:47","2023-03-16 11:00:07","2023-03-13 17:54:52","2023-03-24 10:30:33","2023-03-05 14:16:40","2023-03-26 07:36:03","2023-03-15 06:32:02","2023-03-02 12:32:13","2023-03-02 16:40:43","2023-03-04 11:09:47","2023-03-10 18:07:23","2023-03-12 17:55:13","2023-03-02 02:17:33","2023-03-23 15:33:30","2023-03-29 17:09:50","2023-03-03 16:51:28","2023-03-08 06:27:00","2023-03-20 20:22:44","2023-03-18 03:03:21","2023-03-01 09:57:06","2023-03-25 20:33:52"],["Clark St &amp; Armitage Ave","Public Rack - Kedzie Ave &amp; Argyle St","Orleans St &amp; Chestnut St (NEXT Apts)","Desplaines St &amp; Kinzie St","Walsh Park","Orleans St &amp; Chestnut St (NEXT Apts)","Rush St &amp; Hubbard St","Adler Planetarium","Broadway &amp; Wilson Ave","Stetson Ave &amp; South Water St","Clark St &amp; Wellington Ave","Desplaines St &amp; Kinzie St","Sheridan Rd &amp; Lawrence Ave","Sheridan Rd &amp; Lawrence Ave","Clark St &amp; Armitage Ave","Clark St &amp; Elm St","Sheffield Ave &amp; Wellington Ave","Sheffield Ave &amp; Wellington Ave","Orleans St &amp; Chestnut St (NEXT Apts)","Desplaines St &amp; Jackson Blvd","Desplaines St &amp; Jackson Blvd","Sheridan Rd &amp; Noyes St (NU)","Halsted St &amp; 21st St","Archer (Damen) Ave &amp; 37th St","Indiana Ave &amp; 26th St","Ogden Ave &amp; Race Ave","Wood St &amp; Taylor St (Temp)","Clark St &amp; Wellington Ave","Rush St &amp; Hubbard St","Aberdeen St &amp; Jackson Blvd"],["13146","491","620","TA1306000003","18067","620","KA1503000044","13431","13074","TA1308000029","TA1307000136","TA1306000003","TA1309000041","TA1309000041","13146","TA1307000039","TA1307000052","TA1307000052","620","15539","15539","604","13162","18022","TA1307000005","13194","13285","TA1307000136","KA1503000044","13157"],["Larrabee St &amp; Webster Ave","","Clark St &amp; Randolph St","Sheffield Ave &amp; Kingsbury St","Sangamon St &amp; Lake St","Halsted St &amp; Wrightwood Ave","Wells St &amp; Huron St","Michigan Ave &amp; Ida B Wells Dr","Ravenswood Ave &amp; Irving Park Rd","Clinton St &amp; Washington Blvd","DuSable Lake Shore Dr &amp; Monroe St","Green St &amp; Madison St","Broadway &amp; Argyle St","Michigan Ave &amp; Washington St","Clark St &amp; Elm St","Larrabee St &amp; Kingsbury St","Racine Ave &amp; Belmont Ave","Racine Ave &amp; Belmont Ave","State St &amp; Chicago Ave","N Green St &amp; W Lake St","Daley Center Plaza","Benson Ave &amp; Church St","Damen Ave &amp; Coulter St","Archer (Damen) Ave &amp; 37th St","Canal St &amp; Jackson Blvd","Sedgwick St &amp; Huron St","Clinton St &amp; Jackson Blvd","Kosciuszko Park","McClurg Ct &amp; Ohio St","Desplaines St &amp; Jackson Blvd"],["13193","","TA1305000030","13154","TA1306000015","TA1309000061","TA1306000012","TA1305000010","TA1307000149","WL-012","13300","TA1307000120","13108","13001","TA1307000039","TA1306000009","TA1308000019","TA1308000019","21544","20246.0","TA1306000010","596","TA1307000066","18022","13138","TA1307000062","638","15643","TA1306000029","15539"],[41.91841316666667,41.97,41.898203,41.888716036,41.914479733,41.898203,41.890173,41.866095,41.965221,41.886835,41.936497,41.88847566666666,41.9694415,41.969517,41.918306,41.902973,41.9362534831413,41.9362534831413,41.898203,41.877902031,41.87811890091227,42.058239,41.853765607,41.826712,41.845702648,41.891783237,41.86926521843819,41.936488748,41.890173,41.87772613],[-87.63645116666666,-87.70999999999999,-87.637536,-87.64444785329999,-87.66801333399999,-87.637536,-87.62618500000001,-87.60726699999999,-87.65813900000001,-87.62232,-87.64753899999999,-87.64432416666666,-87.65472983333333,-87.654691,-87.63628199999999,-87.63128,-87.65266209840775,-87.65266209840775,-87.637536,-87.644031525,-87.64394760131836,-87.677432,-87.646574616,-87.683144,-87.622540593,-87.65889883,-87.67373085021973,-87.647600651,-87.62618500000001,-87.65478743],[41.921822,41.95,41.884576228,41.910522,41.88577925240433,41.929143,41.894722,41.876243,41.95469,41.88338,41.880958,41.88185932803822,41.973815,41.8839840647265,41.902973,41.897764,41.939743,41.939743,41.89661720040753,41.89,41.884241,42.048214,41.8492,41.826712,41.877245,41.894666,41.87831661183068,41.93058537138,41.89259211970973,41.87811890091227],[-87.64413999999999,-87.70999999999999,-87.63188991,-87.65310599999999,-87.65102460980414,-87.64907700000001,-87.634362,-87.624426,-87.67393,-87.64117,-87.616743,-87.64926373958588,-87.65966,-87.6246839761734,-87.63128,-87.642884,-87.65886500000001,-87.65886500000001,-87.62857854366302,-87.65000000000001,-87.629634,-87.683485,-87.67564,-87.683144,-87.639366,-87.638437,-87.64098107814789,-87.72377736350001,-87.61728912591934,-87.64394760131836],["member","member","member","member","member","member","member","casual","member","member","casual","member","member","casual","member","member","casual","casual","member","member","member","casual","casual","casual","member","member","member","member","member","casual"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>ride_id<\/th>\n      <th>rideable_type<\/th>\n      <th>started_at<\/th>\n      <th>ended_at<\/th>\n      <th>start_station_name<\/th>\n      <th>start_station_id<\/th>\n      <th>end_station_name<\/th>\n      <th>end_station_id<\/th>\n      <th>start_lat<\/th>\n      <th>start_lng<\/th>\n      <th>end_lat<\/th>\n      <th>end_lng<\/th>\n      <th>member_casual<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"scrollY":true,"columnDefs":[{"className":"dt-right","targets":[9,10,11,12]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"ride_id","targets":1},{"name":"rideable_type","targets":2},{"name":"started_at","targets":3},{"name":"ended_at","targets":4},{"name":"start_station_name","targets":5},{"name":"start_station_id","targets":6},{"name":"end_station_name","targets":7},{"name":"end_station_id","targets":8},{"name":"start_lat","targets":9},{"name":"start_lng","targets":10},{"name":"end_lat","targets":11},{"name":"end_lng","targets":12},{"name":"member_casual","targets":13}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="numero-total-de-registros-em-linhas-do-dataframe"
+class="section level4">
+<h4>Numero total de registros, em linhas, do dataframe</h4>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">nrow</span>(cyclistic_data)</span></code></pre></div>
+<pre><code>## [1] 5707168</code></pre>
+<p>Informações acerca da estrutura do dataframe</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">str</span>(cyclistic_data)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    5707168 obs. of  13 variables:
+##  $ ride_id           : chr  &quot;6842AA605EE9FBB3&quot; &quot;F984267A75B99A8C&quot; &quot;FF7CF57CFE026D02&quot; &quot;6B61B916032CB6D6&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-03-16 08:20:34&quot; &quot;2023-03-04 14:07:06&quot; &quot;2023-03-31 12:28:09&quot; &quot;2023-03-22 14:09:08&quot; ...
+##  $ ended_at          : chr  &quot;2023-03-16 08:22:52&quot; &quot;2023-03-04 14:15:31&quot; &quot;2023-03-31 12:38:47&quot; &quot;2023-03-22 14:24:51&quot; ...
+##  $ start_station_name: chr  &quot;Clark St &amp; Armitage Ave&quot; &quot;Public Rack - Kedzie Ave &amp; Argyle St&quot; &quot;Orleans St &amp; Chestnut St (NEXT Apts)&quot; &quot;Desplaines St &amp; Kinzie St&quot; ...
+##  $ start_station_id  : chr  &quot;13146&quot; &quot;491&quot; &quot;620&quot; &quot;TA1306000003&quot; ...
+##  $ end_station_name  : chr  &quot;Larrabee St &amp; Webster Ave&quot; &quot;&quot; &quot;Clark St &amp; Randolph St&quot; &quot;Sheffield Ave &amp; Kingsbury St&quot; ...
+##  $ end_station_id    : chr  &quot;13193&quot; &quot;&quot; &quot;TA1305000030&quot; &quot;13154&quot; ...
+##  $ start_lat         : num  41.9 42 41.9 41.9 41.9 ...
+##  $ start_lng         : num  -87.6 -87.7 -87.6 -87.6 -87.7 ...
+##  $ end_lat           : num  41.9 42 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.6 -87.7 -87.6 -87.7 -87.7 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...</code></pre>
+</div>
+<div id="limpando-valores-na" class="section level4">
+<h4>Limpando valores <code>NA</code>:</h4>
+<p>Utilizamos a função <em>drop_na()</em> para eliminar registros no
+dataframe que possuam campos de variáveis vazios.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>cyclistic_data <span class="ot">&lt;-</span> <span class="fu">drop_na</span>(cyclistic_data)</span></code></pre></div>
+</div>
+<div id="número-de-registros-após-a-remoção-de-valores-na"
+class="section level4">
+<h4>Número de registros após a remoção de valores <code>NA</code>:</h4>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">nrow</span>(cyclistic_data)</span></code></pre></div>
+<pre><code>## [1] 5699815</code></pre>
+<p>verificando se todos os IDs de viagens são únicos:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(cyclistic_data<span class="sc">$</span>ride_id))</span></code></pre></div>
+<pre><code>## [1] 5699815</code></pre>
+<p>Removendo linhas duplicadas no dataframe</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a>cyclistic_data <span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span> <span class="fu">distinct</span>()</span></code></pre></div>
+</div>
+<div id="informações-a-serem-investigadas-na-analise"
+class="section level2">
+<h2>Informações a serem investigadas na analise</h2>
+<p>Para compreender como os membros e os usuários casuais utilizam as
+bicicletas de maneira diferente, desejamos investigar alguns aspectos
+com base nos dados disponíveis:</p>
+<ul>
+<li><p>Qual é a duração média das viagens de cada grupo?</p></li>
+<li><p>A duração média das viagens varia de acordo com os dias da semana
+ou os meses do ano?</p></li>
+<li><p>Qual é o número total de viagens de cada grupo?</p></li>
+<li><p>O número total de viagens varia de acordo com os dias da semana
+ou os meses do ano?</p></li>
+<li><p>Por que os passageiros casuais iriam querer adquirir planos
+anuais da Cyclistic?</p></li>
+</ul>
+<p>Vamos extrair informações da coluna <strong>started_at</strong> para
+criar novas colunas relacionadas a Data e Hora de saída, usando o pacote
+<em>lubridate</em>.</p>
+<p>Criamos as seguintes colunas:</p>
+<ul>
+<li><p><strong>horario_saida</strong>: Horário de saída da
+base.</p></li>
+<li><p><strong>mes_saida</strong>: Mês de saída da base.</p></li>
+<li><p><strong>dia_mes_saida</strong>: Dia do mes da saída da
+base.</p></li>
+<li><p><strong>dia_semana_saida</strong>: Dia da semana da saída da
+base.</p></li>
+<li><p><strong>duracao_viagem</strong>: representa a duração da
+viagem.</p></li>
+</ul>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a>cyclistic_data<span class="sc">$</span>horario_saida <span class="ot">&lt;-</span> lubridate<span class="sc">::</span> <span class="fu">hour</span>(cyclistic_data<span class="sc">$</span>started_at)</span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a>cyclistic_data<span class="sc">$</span>mes_saida <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">as.Date</span>(cyclistic_data<span class="sc">$</span>started_at), <span class="st">&quot;%b&quot;</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a>cyclistic_data<span class="sc">$</span>mes_saida <span class="ot">&lt;-</span> <span class="fu">str_to_title</span>(<span class="fu">format</span>(<span class="fu">as.Date</span>(cyclistic_data<span class="sc">$</span>started_at), <span class="st">&quot;%b&quot;</span>))</span>
+<span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a>cyclistic_data<span class="sc">$</span>dia_mes_saida <span class="ot">&lt;-</span> <span class="fu">format</span>(<span class="fu">as.Date</span>(cyclistic_data<span class="sc">$</span>started_at), <span class="st">&quot;%d&quot;</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" tabindex="-1"></a>cyclistic_data<span class="sc">$</span>dia_semana_saida <span class="ot">&lt;-</span> <span class="fu">str_to_title</span>(<span class="fu">format</span>(<span class="fu">as.Date</span>(cyclistic_data<span class="sc">$</span>started_at), <span class="st">&quot;%A&quot;</span>))</span></code></pre></div>
+<p>A duração da viagem e dada pela diferença entre o instante de chegada
+e de saída para obter esse resultado usamos a função
+<em>diftime</em></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a>cyclistic_data<span class="sc">$</span>duracao_viagem <span class="ot">&lt;-</span> <span class="fu">difftime</span>(cyclistic_data<span class="sc">$</span>ended_at, cyclistic_data<span class="sc">$</span>started_at)</span></code></pre></div>
+<p>Visualizando a estrutura do dataframe</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a><span class="fu">str</span>(cyclistic_data)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    5699815 obs. of  18 variables:
+##  $ ride_id           : chr  &quot;6842AA605EE9FBB3&quot; &quot;F984267A75B99A8C&quot; &quot;FF7CF57CFE026D02&quot; &quot;6B61B916032CB6D6&quot; ...
+##  $ rideable_type     : chr  &quot;electric_bike&quot; &quot;electric_bike&quot; &quot;classic_bike&quot; &quot;classic_bike&quot; ...
+##  $ started_at        : chr  &quot;2023-03-16 08:20:34&quot; &quot;2023-03-04 14:07:06&quot; &quot;2023-03-31 12:28:09&quot; &quot;2023-03-22 14:09:08&quot; ...
+##  $ ended_at          : chr  &quot;2023-03-16 08:22:52&quot; &quot;2023-03-04 14:15:31&quot; &quot;2023-03-31 12:38:47&quot; &quot;2023-03-22 14:24:51&quot; ...
+##  $ start_station_name: chr  &quot;Clark St &amp; Armitage Ave&quot; &quot;Public Rack - Kedzie Ave &amp; Argyle St&quot; &quot;Orleans St &amp; Chestnut St (NEXT Apts)&quot; &quot;Desplaines St &amp; Kinzie St&quot; ...
+##  $ start_station_id  : chr  &quot;13146&quot; &quot;491&quot; &quot;620&quot; &quot;TA1306000003&quot; ...
+##  $ end_station_name  : chr  &quot;Larrabee St &amp; Webster Ave&quot; &quot;&quot; &quot;Clark St &amp; Randolph St&quot; &quot;Sheffield Ave &amp; Kingsbury St&quot; ...
+##  $ end_station_id    : chr  &quot;13193&quot; &quot;&quot; &quot;TA1305000030&quot; &quot;13154&quot; ...
+##  $ start_lat         : num  41.9 42 41.9 41.9 41.9 ...
+##  $ start_lng         : num  -87.6 -87.7 -87.6 -87.6 -87.7 ...
+##  $ end_lat           : num  41.9 42 41.9 41.9 41.9 ...
+##  $ end_lng           : num  -87.6 -87.7 -87.6 -87.7 -87.7 ...
+##  $ member_casual     : chr  &quot;member&quot; &quot;member&quot; &quot;member&quot; &quot;member&quot; ...
+##  $ horario_saida     : int  8 14 12 14 7 17 19 17 19 17 ...
+##  $ mes_saida         : chr  &quot;Mar&quot; &quot;Mar&quot; &quot;Mar&quot; &quot;Mar&quot; ...
+##  $ dia_mes_saida     : chr  &quot;16&quot; &quot;04&quot; &quot;31&quot; &quot;22&quot; ...
+##  $ dia_semana_saida  : chr  &quot;Quinta-Feira&quot; &quot;Sábado&quot; &quot;Sexta-Feira&quot; &quot;Quarta-Feira&quot; ...
+##  $ duracao_viagem    : &#39;difftime&#39; num  138 505 638 943 ...
+##   ..- attr(*, &quot;units&quot;)= chr &quot;secs&quot;</code></pre>
+<div id="convertendo-o-tipo-da-coluna-duracao_viagem-para-numérico"
+class="section level4">
+<h4>Convertendo o tipo da coluna <em>duracao_viagem</em> para
+numérico</h4>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a>cyclistic_data<span class="sc">$</span>duracao_viagem <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(cyclistic_data<span class="sc">$</span>duracao_viagem))</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a><span class="fu">is.numeric</span>(cyclistic_data<span class="sc">$</span>duracao_viagem)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div
+id="removendo-dados-que-não-têm-informação-relevante-ou-que-não-têm-informação"
+class="section level4">
+<h4>Removendo dados que não têm informação relevante ou que não têm
+informação:</h4>
+<p>Nesse caso vamos remover um registro quando a <em>duracao_viagem</em>
+for menor ou igual a zero ou vazia.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a>cyclistic_data <span class="ot">&lt;-</span> cyclistic_data[<span class="sc">!</span>(cyclistic_data<span class="sc">$</span>duracao_viagem <span class="sc">&lt;=</span> <span class="dv">0</span> <span class="sc">|</span> cyclistic_data<span class="sc">$</span>duracao_viagem <span class="sc">==</span> <span class="st">&quot;&quot;</span>),]</span></code></pre></div>
+<p>Verificamos se houve alteração no número de registros</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">nrow</span>(cyclistic_data)</span></code></pre></div>
+<pre><code>## [1] 5698438</code></pre>
+<p><a id="analisar"></a></p>
+</div>
+</div>
+</div>
+<div id="analise-dos-dados" class="section level1">
+<h1>4: Analise dos Dados</h1>
+<p>Agora que dados estão armazenados e limpos adequadamente, partimos
+para análise em busca de respostas.</p>
+<div
+id="calculamos-algumas-informações-estatísticas-acerca-da-duração-das-viagens-de-ambos-os-grupos-de-clientes"
+class="section level4">
+<h4>Calculamos algumas informações estatísticas acerca da duração das
+viagens de ambos os grupos de clientes</h4>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Média da duração das viagens (em min):&quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(cyclistic_data<span class="sc">$</span>duracao_viagem)<span class="sc">/</span><span class="dv">60</span>, <span class="dv">2</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;Média da duração das viagens (em min): 15.27&quot;</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Mediana da duração das viagens (em min):&quot;</span>, <span class="fu">round</span>(<span class="fu">median</span>(cyclistic_data<span class="sc">$</span>duracao_viagem)<span class="sc">/</span><span class="dv">60</span>, <span class="dv">2</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;Mediana da duração das viagens (em min): 9.57&quot;</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Duração máxima de uma viagem (em min):&quot;</span>, <span class="fu">round</span>(<span class="fu">max</span>(cyclistic_data<span class="sc">$</span>duracao_viagem)<span class="sc">/</span><span class="dv">60</span>, <span class="dv">2</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;Duração máxima de uma viagem (em min): 12136.3&quot;</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Duração mínima de uma viagem (em seg):&quot;</span>, <span class="fu">round</span>(<span class="fu">min</span>(cyclistic_data<span class="sc">$</span>duracao_viagem), <span class="dv">2</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;Duração mínima de uma viagem (em seg): 1&quot;</code></pre>
+</div>
+<div id="duração-e-numero-de-viagens-por-grupo-de-usuários"
+class="section level4">
+<h4>Duração e numero de viagens por grupo de usuários:</h4>
+<p>Agrupamos os dois tipos de usuário e, usando a função
+<em>summarise()</em> e o operador <em>%&gt;%</em> (pipe), calculamos a
+duração média e numero total das viagens, referente a cada grupo de
+usuário.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a>viagem_por_usuario <span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span></span>
+<span id="cb64-2"><a href="#cb64-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual) <span class="sc">%&gt;%</span></span>
+<span id="cb64-3"><a href="#cb64-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">media_duracao =</span> <span class="fu">mean</span>(duracao_viagem)<span class="sc">/</span><span class="dv">60</span>, <span class="at">numero_viagens =</span> <span class="fu">length</span>(duracao_viagem))</span>
+<span id="cb64-4"><a href="#cb64-4" tabindex="-1"></a></span>
+<span id="cb64-5"><a href="#cb64-5" tabindex="-1"></a><span class="fu">print</span>(viagem_por_usuario)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##   member_casual media_duracao numero_viagens
+##   &lt;chr&gt;                 &lt;dbl&gt;          &lt;int&gt;
+## 1 casual                 20.8        2041223
+## 2 member                 12.2        3657215</code></pre>
+<ul>
+<li>Nessa primeira observação analítica, percebemos que os membros
+casuais viajam em media por mais tempo que os membros Cyclistic
+(<em>20,8 min vs 12,2 min</em>), entretanto o numero de viagens dos
+membros Cyclistic superam em 1.615.992 o numero de viagens realizadas
+por membro casuais.</li>
+</ul>
+</div>
+<div id="visualização-do-resultado" class="section level4">
+<h4>Visualização do resultado</h4>
+</div>
+<div id="gráficos-da-analise" class="section level4">
+<h4>Gráficos da analise</h4>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a>cyclistic_data <span class="sc">%&gt;%</span></span>
+<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual) <span class="sc">%&gt;%</span></span>
+<span id="cb66-3"><a href="#cb66-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">numero_viagens =</span> <span class="fu">length</span>(duracao_viagem)<span class="sc">/</span><span class="dv">1000000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb66-4"><a href="#cb66-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> member_casual, <span class="at">y=</span>numero_viagens, <span class="at">fill=</span>member_casual, <span class="at">color=</span>member_casual)) <span class="sc">+</span></span>
+<span id="cb66-5"><a href="#cb66-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&#39;identity&#39;</span>, <span class="at">position =</span> <span class="st">&#39;dodge&#39;</span>) <span class="sc">+</span></span>
+<span id="cb66-6"><a href="#cb66-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb66-7"><a href="#cb66-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Número de viagens&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Viagens (em Milhões)&quot;</span>)</span></code></pre></div>
+<p><img
+src="index_files/figure-html/unnamed-chunk-20-1.png" /><!-- --></p>
+<ul>
+<li>Tempo de viagem por tipo de usuário:</li>
+</ul>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a>cyclistic_data <span class="sc">%&gt;%</span></span>
+<span id="cb67-2"><a href="#cb67-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual) <span class="sc">%&gt;%</span></span>
+<span id="cb67-3"><a href="#cb67-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">media_duracao =</span> <span class="fu">mean</span>(duracao_viagem)<span class="sc">/</span><span class="dv">60</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb67-4"><a href="#cb67-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> member_casual, <span class="at">y=</span>media_duracao, <span class="at">fill=</span>member_casual, <span class="at">color=</span>member_casual)) <span class="sc">+</span></span>
+<span id="cb67-5"><a href="#cb67-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&#39;identity&#39;</span>, <span class="at">position =</span> <span class="st">&#39;dodge&#39;</span>) <span class="sc">+</span></span>
+<span id="cb67-6"><a href="#cb67-6" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb67-7"><a href="#cb67-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Tempo médio de viagens&quot;</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Tempo (em Minutos)&quot;</span>)</span></code></pre></div>
+<p><img
+src="index_files/figure-html/unnamed-chunk-21-1.png" /><!-- --></p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a>cyclistic_data <span class="sc">%&gt;%</span></span>
+<span id="cb68-2"><a href="#cb68-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual) <span class="sc">%&gt;%</span></span>
+<span id="cb68-3"><a href="#cb68-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">numero_viagens =</span> <span class="fu">length</span>(duracao_viagem) <span class="sc">/</span> <span class="dv">1000000</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb68-4"><a href="#cb68-4" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percentual =</span> numero_viagens <span class="sc">/</span> <span class="fu">sum</span>(numero_viagens) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb68-5"><a href="#cb68-5" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> percentual, <span class="at">fill =</span> member_casual)) <span class="sc">+</span></span>
+<span id="cb68-6"><a href="#cb68-6" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">width =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb68-7"><a href="#cb68-7" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">&quot;y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb68-8"><a href="#cb68-8" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb68-9"><a href="#cb68-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Percentual do Número de Viagens por Tipo de Usuário&quot;</span>,</span>
+<span id="cb68-10"><a href="#cb68-10" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Dados expressos em porcentagem&quot;</span>,</span>
+<span id="cb68-11"><a href="#cb68-11" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;Tipo de Usuário&quot;</span>) <span class="sc">+</span></span>
+<span id="cb68-12"><a href="#cb68-12" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(percentual, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>)), <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img
+src="index_files/figure-html/unnamed-chunk-22-1.png" /><!-- --></p>
+</div>
+<div id="análise" class="section level4">
+<h4>Análise:</h4>
+<ul>
+<li>Em termos percentuais número total de viagens do grupo de membros
+Cyclistic é de <em>64,2%</em> do total de viagens geral; enquanto que
+dos Usuários Casuais é de <em>35,8%</em>.</li>
+</ul>
+</div>
+<div
+id="analisaremos-melhor-os-aspectos-de-uso-dos-clientes-a-partir-do-escopo-de-dados-disponíveis."
+class="section level4">
+<h4>Analisaremos melhor os aspectos de uso dos clientes a partir do
+escopo de dados disponíveis.</h4>
+<p>Verificamos a unicidade dos dados da coluna <em>mes_saida</em>:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a><span class="fu">unique</span>(cyclistic_data<span class="sc">$</span>mes_saida)</span></code></pre></div>
+<pre><code>##  [1] &quot;Mar&quot; &quot;Abr&quot; &quot;Mai&quot; &quot;Jun&quot; &quot;Jul&quot; &quot;Ago&quot; &quot;Set&quot; &quot;Out&quot; &quot;Nov&quot; &quot;Dez&quot; &quot;Jan&quot; &quot;Fev&quot;</code></pre>
+<p>Ordenando a coluna com a função função <em>ordered()</em>:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a>cyclistic_data<span class="sc">$</span>mes_saida <span class="ot">&lt;-</span> <span class="fu">ordered</span>(cyclistic_data<span class="sc">$</span>mes_saida, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Jan&quot;</span>, <span class="st">&quot;Fev&quot;</span>, <span class="st">&quot;Mar&quot;</span>, <span class="st">&quot;Abr&quot;</span>, <span class="st">&quot;Mai&quot;</span>, <span class="st">&quot;Jun&quot;</span>, <span class="st">&quot;Jul&quot;</span>, <span class="st">&quot;Ago&quot;</span>, <span class="st">&quot;Set&quot;</span>, <span class="st">&quot;Out&quot;</span>, <span class="st">&quot;Nov&quot;</span>, <span class="st">&quot;Dez&quot;</span>))</span></code></pre></div>
+</div>
+<div
+id="analise-do-número-total-de-viagens-de-cada-grupo-de-usuários-por-mês"
+class="section level4">
+<h4>Analise do número total de viagens de cada grupo de usuários por
+mês</h4>
+<p>Total de viagens a cada mes:</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a>num_total<span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span> </span>
+<span id="cb72-2"><a href="#cb72-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual, mes_saida) <span class="sc">%&gt;%</span> </span>
+<span id="cb72-3"><a href="#cb72-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">numero_viagens =</span> <span class="fu">length</span>(duracao_viagem), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb72-4"><a href="#cb72-4" tabindex="-1"></a><span class="fu">print</span>(num_total)</span></code></pre></div>
+<pre><code>## # A tibble: 24 × 3
+##    member_casual mes_saida numero_viagens
+##    &lt;chr&gt;         &lt;ord&gt;              &lt;int&gt;
+##  1 casual        Jan                24339
+##  2 casual        Fev                46957
+##  3 casual        Mar                62042
+##  4 casual        Abr               146878
+##  5 casual        Mai               233563
+##  6 casual        Jun               300408
+##  7 casual        Jul               330142
+##  8 casual        Ago               309931
+##  9 casual        Set               260836
+## 10 casual        Out               176553
+## # ℹ 14 more rows</code></pre>
+<p>Importamos o pacote scales para ajudar na edição dos gráficos</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code></pre></div>
+<pre><code>## Warning: package &#39;scales&#39; was built under R version 4.3.3</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" tabindex="-1"></a><span class="fu">ggplot</span>(num_total, <span class="fu">aes</span>(<span class="at">x =</span> mes_saida, <span class="at">y =</span> numero_viagens, <span class="at">fill =</span> member_casual)) <span class="sc">+</span></span>
+<span id="cb79-2"><a href="#cb79-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-3"><a href="#cb79-3" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_width</span>(<span class="dv">100000</span>), <span class="at">labels =</span> <span class="fu">comma_format</span>(<span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb79-4"><a href="#cb79-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Total de Viagens&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Número total de Viagens por Mês&quot;</span>, <span class="at">fill=</span><span class="st">&quot;Tipo de Usuário&quot;</span>) <span class="sc">+</span></span>
+<span id="cb79-5"><a href="#cb79-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb79-6"><a href="#cb79-6" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb79-7"><a href="#cb79-7" tabindex="-1"></a>        <span class="at">legend.title=</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,),</span>
+<span id="cb79-8"><a href="#cb79-8" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
+<pre><code>## Warning in prettyNum(.Internal(format(x, trim, digits, nsmall, width, 3L, :
+## &#39;big.mark&#39; and &#39;decimal.mark&#39; are both &#39;.&#39;, which could be confusing</code></pre>
+<p><img
+src="index_files/figure-html/unnamed-chunk-27-1.png" /><!-- --></p>
+</div>
+<div id="análise-1" class="section level4">
+<h4>Análise:</h4>
+<ul>
+<li><p>Percebe-se um pico no número de viagens de ambos os grupos de
+usuários nos meses de verão no hemisfério norte - de junho a
+agosto.</p></li>
+<li><p>No período do inverno do hemisfério norte, de dezembro a março, o
+número de viagens de usuários casuais é consideravelmente inferior ao
+número de viagens de membros, denotando uma característica de
+sazonalidade, que pode se dar pela temporada turística da cidade, no
+período de verão (de junho a agosto).</p></li>
+</ul>
+</div>
+<div
+id="analise-do-tempo-médio-de-viagens-de-cada-grupo-de-usuários-por-mês"
+class="section level4">
+<h4>Analise do tempo médio de viagens de cada grupo de usuários por
+mês</h4>
+<p>Calculando a duracao media</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" tabindex="-1"></a>tempo_medio <span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span> </span>
+<span id="cb81-2"><a href="#cb81-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual, mes_saida) <span class="sc">%&gt;%</span> </span>
+<span id="cb81-3"><a href="#cb81-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">duracao_media =</span> <span class="fu">mean</span>(duracao_viagem)<span class="sc">/</span><span class="dv">60</span>, <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb81-4"><a href="#cb81-4" tabindex="-1"></a><span class="fu">print</span>(tempo_medio)</span></code></pre></div>
+<pre><code>## # A tibble: 24 × 3
+##    member_casual mes_saida duracao_media
+##    &lt;chr&gt;         &lt;ord&gt;             &lt;dbl&gt;
+##  1 casual        Jan                14.8
+##  2 casual        Fev                18.9
+##  3 casual        Mar                15.2
+##  4 casual        Abr                20.4
+##  5 casual        Mai                22.0
+##  6 casual        Jun                21.7
+##  7 casual        Jul                22.7
+##  8 casual        Ago                22.0
+##  9 casual        Set                21.2
+## 10 casual        Out                19.1
+## # ℹ 14 more rows</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" tabindex="-1"></a><span class="fu">ggplot</span>(tempo_medio, <span class="fu">aes</span>(<span class="at">x =</span> mes_saida, <span class="at">y =</span> duracao_media, <span class="at">fill =</span> member_casual)) <span class="sc">+</span></span>
+<span id="cb83-2"><a href="#cb83-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb83-3"><a href="#cb83-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Tempo médio (min)&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Tempo médio (em min.) por Mês&quot;</span>, <span class="at">fill=</span><span class="st">&quot;Tipo de Usuário&quot;</span>) <span class="sc">+</span></span>
+<span id="cb83-4"><a href="#cb83-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb83-5"><a href="#cb83-5" tabindex="-1"></a>       <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb83-6"><a href="#cb83-6" tabindex="-1"></a>       <span class="at">legend.title=</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,),</span>
+<span id="cb83-7"><a href="#cb83-7" tabindex="-1"></a>       <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
+<p><img
+src="index_files/figure-html/unnamed-chunk-29-1.png" /><!-- --></p>
+</div>
+<div id="análise-2" class="section level4">
+<h4>Análise:</h4>
+<ul>
+<li>Como Já vimos, o tempo médio de duração das viagens do grupo de
+membros Cyclistic é sempre inferior ao tempo médio do grupo de Usuários
+Casuais. Percebemos aqui também que o tempo médio das viagens dos
+membros Cyclistic possui menor oscilação ao longo dos meses,
+demonstrando um uso mais consistente dos membros nos 12 meses
+analisados.</li>
+</ul>
+</div>
+<div
+id="analise-do-número-total-de-viagens-de-cada-grupo-de-usuários-por-dia-da-semana"
+class="section level4">
+<h4>Analise do número total de viagens de cada grupo de usuários por dia
+da semana</h4>
+<p>Verificação de duplicidade</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a><span class="fu">unique</span>(cyclistic_data<span class="sc">$</span>dia_semana_saida)</span></code></pre></div>
+<pre><code>## [1] &quot;Quinta-Feira&quot;  &quot;Sábado&quot;        &quot;Sexta-Feira&quot;   &quot;Quarta-Feira&quot; 
+## [5] &quot;Segunda-Feira&quot; &quot;Domingo&quot;       &quot;Terça-Feira&quot;</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a>cyclistic_data<span class="sc">$</span>dia_semana_saida <span class="ot">&lt;-</span> <span class="fu">ordered</span>(cyclistic_data<span class="sc">$</span>dia_semana_saida, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Domingo&quot;</span>, <span class="st">&quot;Segunda-Feira&quot;</span>, <span class="st">&quot;Terça-Feira&quot;</span>, <span class="st">&quot;Quarta-Feira&quot;</span>, <span class="st">&quot;Quinta-Feira&quot;</span>, <span class="st">&quot;Sexta-Feira&quot;</span>, <span class="st">&quot;Sábado&quot;</span>))</span></code></pre></div>
+<p>Total de viagens a cada dia:</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" tabindex="-1"></a>num_total_dias<span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span></span>
+<span id="cb87-2"><a href="#cb87-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual, dia_semana_saida) <span class="sc">%&gt;%</span> </span>
+<span id="cb87-3"><a href="#cb87-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">numero_viagens_dia =</span> <span class="fu">length</span>(duracao_viagem), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb87-4"><a href="#cb87-4" tabindex="-1"></a><span class="fu">print</span>(num_total_dias)</span></code></pre></div>
+<pre><code>## # A tibble: 14 × 3
+##    member_casual dia_semana_saida numero_viagens_dia
+##    &lt;chr&gt;         &lt;ord&gt;                         &lt;int&gt;
+##  1 casual        Domingo                      327569
+##  2 casual        Segunda-Feira                232069
+##  3 casual        Terça-Feira                  242783
+##  4 casual        Quarta-Feira                 248945
+##  5 casual        Quinta-Feira                 273550
+##  6 casual        Sexta-Feira                  311261
+##  7 casual        Sábado                       405046
+##  8 member        Domingo                      398291
+##  9 member        Segunda-Feira                492785
+## 10 member        Terça-Feira                  568597
+## 11 member        Quarta-Feira                 595716
+## 12 member        Quinta-Feira                 606917
+## 13 member        Sexta-Feira                  530502
+## 14 member        Sábado                       464407</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" tabindex="-1"></a><span class="fu">ggplot</span>(num_total_dias, <span class="fu">aes</span>(<span class="at">x =</span> dia_semana_saida, <span class="at">y =</span> numero_viagens_dia, <span class="at">fill =</span> member_casual)) <span class="sc">+</span></span>
+<span id="cb89-2"><a href="#cb89-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb89-3"><a href="#cb89-3" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_width</span>(<span class="dv">100000</span>), <span class="at">labels =</span> <span class="fu">comma_format</span>(<span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb89-4"><a href="#cb89-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Total de Viagens&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Número total de Viagens por dia&quot;</span>, <span class="at">fill=</span><span class="st">&quot;Tipo de Usuário&quot;</span>) <span class="sc">+</span></span>
+<span id="cb89-5"><a href="#cb89-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">20</span>, <span class="at">hjust=</span><span class="dv">1</span>,<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb89-6"><a href="#cb89-6" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb89-7"><a href="#cb89-7" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb89-8"><a href="#cb89-8" tabindex="-1"></a>        <span class="at">legend.title=</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,),</span>
+<span id="cb89-9"><a href="#cb89-9" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
+<pre><code>## Warning in prettyNum(.Internal(format(x, trim, digits, nsmall, width, 3L, :
+## &#39;big.mark&#39; and &#39;decimal.mark&#39; are both &#39;.&#39;, which could be confusing</code></pre>
+<p><img
+src="index_files/figure-html/unnamed-chunk-33-1.png" /><!-- --></p>
+</div>
+<div id="análise-3" class="section level4">
+<h4>Análise:</h4>
+<ul>
+<li>O número de viagens dos membros é maior durante os dias úteis, o que
+demonstra, mais uma vez, o uso consistente por parte dos membros.Já o
+número de viagens dos usuários casuais é maior nos finais de
+semana(Sábado-Domingo), o que denota um possível uso recreativo.</li>
+</ul>
+</div>
+<div
+id="analise-do-tempo-médio-de-viagem-de-cada-grupo-de-usuários-por-mês"
+class="section level4">
+<h4>Analise do tempo médio de viagem de cada grupo de usuários por
+mês</h4>
+<p>Calculando a duração média</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" tabindex="-1"></a>tempo_medio_dia <span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span> </span>
+<span id="cb91-2"><a href="#cb91-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual, dia_semana_saida) <span class="sc">%&gt;%</span> </span>
+<span id="cb91-3"><a href="#cb91-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">duracao_media_dia =</span> <span class="fu">mean</span>(duracao_viagem)<span class="sc">/</span><span class="dv">60</span>, <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb91-4"><a href="#cb91-4" tabindex="-1"></a><span class="fu">print</span>(tempo_medio_dia)</span></code></pre></div>
+<pre><code>## # A tibble: 14 × 3
+##    member_casual dia_semana_saida duracao_media_dia
+##    &lt;chr&gt;         &lt;ord&gt;                        &lt;dbl&gt;
+##  1 casual        Domingo                       24.2
+##  2 casual        Segunda-Feira                 20.6
+##  3 casual        Terça-Feira                   18.8
+##  4 casual        Quarta-Feira                  17.8
+##  5 casual        Quinta-Feira                  18.1
+##  6 casual        Sexta-Feira                   20.2
+##  7 casual        Sábado                        23.5
+##  8 member        Domingo                       13.5
+##  9 member        Segunda-Feira                 11.6
+## 10 member        Terça-Feira                   11.8
+## 11 member        Quarta-Feira                  11.7
+## 12 member        Quinta-Feira                  11.7
+## 13 member        Sexta-Feira                   12.1
+## 14 member        Sábado                        13.5</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" tabindex="-1"></a><span class="fu">ggplot</span>(tempo_medio_dia, <span class="fu">aes</span>(<span class="at">x =</span> dia_semana_saida, <span class="at">y =</span> duracao_media_dia, <span class="at">fill =</span> member_casual)) <span class="sc">+</span></span>
+<span id="cb93-2"><a href="#cb93-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb93-3"><a href="#cb93-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Tempo médio (min)&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Tempo médio (em min.) por dia&quot;</span>, <span class="at">fill=</span><span class="st">&quot;Tipo de Usuário&quot;</span>) <span class="sc">+</span></span>
+<span id="cb93-4"><a href="#cb93-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">20</span>, <span class="at">hjust=</span><span class="dv">1</span>,<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb93-5"><a href="#cb93-5" tabindex="-1"></a>       <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb93-6"><a href="#cb93-6" tabindex="-1"></a>       <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb93-7"><a href="#cb93-7" tabindex="-1"></a>       <span class="at">legend.title=</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,),</span>
+<span id="cb93-8"><a href="#cb93-8" tabindex="-1"></a>       <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
+<p><img
+src="index_files/figure-html/unnamed-chunk-35-1.png" /><!-- --></p>
+</div>
+<div id="análise-4" class="section level4">
+<h4>Análise:</h4>
+<ul>
+<li>Nos finais de semana a duração média das viagens do grupo de
+usuários casuais é maior (possível uso recreativo). A duração média das
+viagens de membros em dias úteis está em torno de 12 minutos com pouca
+varição.</li>
+</ul>
+</div>
+<div
+id="analise-do-número-total-de-viagens-de-cada-grupo-de-usuários-por-horário-do-dia"
+class="section level4">
+<h4>Analise do número total de viagens de cada grupo de usuários por
+horário do dia</h4>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" tabindex="-1"></a>num_total_hora<span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span></span>
+<span id="cb94-2"><a href="#cb94-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual, horario_saida) <span class="sc">%&gt;%</span></span>
+<span id="cb94-3"><a href="#cb94-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">numero_viagens_hora =</span> <span class="fu">length</span>(duracao_viagem), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb94-4"><a href="#cb94-4" tabindex="-1"></a><span class="fu">print</span>(num_total_hora)</span></code></pre></div>
+<pre><code>## # A tibble: 48 × 3
+##    member_casual horario_saida numero_viagens_hora
+##    &lt;chr&gt;                 &lt;int&gt;               &lt;int&gt;
+##  1 casual                    0               36376
+##  2 casual                    1               23619
+##  3 casual                    2               14198
+##  4 casual                    3                7826
+##  5 casual                    4                5787
+##  6 casual                    5               11238
+##  7 casual                    6               29525
+##  8 casual                    7               52389
+##  9 casual                    8               70308
+## 10 casual                    9               69461
+## # ℹ 38 more rows</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="fu">ggplot</span>(num_total_hora, <span class="fu">aes</span>(<span class="at">x =</span> horario_saida, <span class="at">y =</span> numero_viagens_hora, <span class="at">fill =</span> member_casual)) <span class="sc">+</span></span>
+<span id="cb96-2"><a href="#cb96-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb96-3"><a href="#cb96-3" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">breaks_width</span>(<span class="dv">100000</span>), <span class="at">labels =</span> <span class="fu">comma_format</span>(<span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb96-4"><a href="#cb96-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span> <span class="st">&quot;Horário do dia&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Total de Viagens&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Número total de Viagens por horário&quot;</span>, <span class="at">fill=</span><span class="st">&quot;Tipo de Usuário&quot;</span>) <span class="sc">+</span></span>
+<span id="cb96-5"><a href="#cb96-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb96-6"><a href="#cb96-6" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb96-7"><a href="#cb96-7" tabindex="-1"></a>        <span class="at">legend.title=</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,),</span>
+<span id="cb96-8"><a href="#cb96-8" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
+<pre><code>## Warning in prettyNum(.Internal(format(x, trim, digits, nsmall, width, 3L, :
+## &#39;big.mark&#39; and &#39;decimal.mark&#39; are both &#39;.&#39;, which could be confusing</code></pre>
+<p><img
+src="index_files/figure-html/unnamed-chunk-37-1.png" /><!-- --></p>
+<ul>
+<li>Percebemos a persistência do padrão de uso observado até aqui, os
+membros, em sua maioria, fazem uso mais intenso das bicicletas em
+horário comercial.</li>
+</ul>
+</div>
+<div
+id="analise-do-tempo-médio-de-viagem-de-cada-grupo-de-usuários-por-horário-do-dia"
+class="section level4">
+<h4>Analise do tempo médio de viagem de cada grupo de usuários por
+horário do dia</h4>
+<p>Calculando a duração media</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a>tempo_medio_hora <span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span> </span>
+<span id="cb98-2"><a href="#cb98-2" tabindex="-1"></a>  <span class="fu">group_by</span>(member_casual, horario_saida) <span class="sc">%&gt;%</span> </span>
+<span id="cb98-3"><a href="#cb98-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">duracao_media_hora =</span> <span class="fu">mean</span>(duracao_viagem)<span class="sc">/</span><span class="dv">60</span>, <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span>
+<span id="cb98-4"><a href="#cb98-4" tabindex="-1"></a><span class="fu">print</span>(tempo_medio_hora)</span></code></pre></div>
+<pre><code>## # A tibble: 48 × 3
+##    member_casual horario_saida duracao_media_hora
+##    &lt;chr&gt;                 &lt;int&gt;              &lt;dbl&gt;
+##  1 casual                    0               18.4
+##  2 casual                    1               18.2
+##  3 casual                    2               18.2
+##  4 casual                    3               18.1
+##  5 casual                    4               15.5
+##  6 casual                    5               13.9
+##  7 casual                    6               14.7
+##  8 casual                    7               14.0
+##  9 casual                    8               15.6
+## 10 casual                    9               20.8
+## # ℹ 38 more rows</code></pre>
+<div class="sourceCode" id="cb100"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" tabindex="-1"></a><span class="fu">ggplot</span>(tempo_medio_hora, <span class="fu">aes</span>(<span class="at">x =</span> horario_saida, <span class="at">y =</span> duracao_media_hora, <span class="at">fill =</span> member_casual)) <span class="sc">+</span></span>
+<span id="cb100-2"><a href="#cb100-2" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb100-3"><a href="#cb100-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span> <span class="st">&quot;Horário do dia&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Tempo médio (min)&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Tempo médio (em min.) por horário&quot;</span>, <span class="at">fill=</span><span class="st">&quot;Tipo de Usuário&quot;</span>) <span class="sc">+</span></span>
+<span id="cb100-4"><a href="#cb100-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb100-5"><a href="#cb100-5" tabindex="-1"></a>       <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb100-6"><a href="#cb100-6" tabindex="-1"></a>       <span class="at">legend.title=</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>,),</span>
+<span id="cb100-7"><a href="#cb100-7" tabindex="-1"></a>       <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
+<p><img
+src="index_files/figure-html/unnamed-chunk-39-1.png" /><!-- --></p>
+<ul>
+<li>O recorte da duração média dos passeios por horário do dia aumenta
+as evidencias ja observadas em recortes anteriores. O tempo de medio de
+duração dos passeios de usuários casuais é superior a duração média das
+viagens dos membros. Até aqui, após todos os estratos realizados com os
+dados, podemos qualificar o uso dos membros cyclistic, como um uso
+pragmático, muito provavelmente para fins de mobilidade até seu local de
+trabalho, estudo, ou ambiente de realização de atividade diárias.</li>
+</ul>
+<p><a id="compartilhar"></a></p>
+</div>
+</div>
+<div id="compartilhar" class="section level1">
+<h1>5: Compartilhar</h1>
+<div class="sourceCode" id="cb101"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" tabindex="-1"></a>mes_semana_hora <span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span> </span>
+<span id="cb101-2"><a href="#cb101-2" tabindex="-1"></a>  <span class="fu">group_by</span>(horario_saida, dia_semana_saida, member_casual) <span class="sc">%&gt;%</span> </span>
+<span id="cb101-3"><a href="#cb101-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">num_total_graf =</span> <span class="fu">length</span>(duracao_viagem), <span class="at">.groups =</span> <span class="st">&#39;drop&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" tabindex="-1"></a><span class="fu">ggplot</span>(mes_semana_hora, <span class="fu">aes</span>(<span class="at">x =</span> dia_semana_saida, <span class="at">y =</span> horario_saida, <span class="at">fill =</span> num_total_graf)) <span class="sc">+</span></span>
+<span id="cb102-2"><a href="#cb102-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb102-3"><a href="#cb102-3" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>member_casual) <span class="sc">+</span></span>
+<span id="cb102-4"><a href="#cb102-4" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">high =</span> <span class="st">&quot;red&quot;</span>, <span class="at">low =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb102-5"><a href="#cb102-5" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">trans =</span> <span class="st">&quot;reverse&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb102-6"><a href="#cb102-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span> <span class="cn">NULL</span>, <span class="at">y=</span> <span class="st">&quot;Hora do Dia&quot;</span>, <span class="at">fill=</span><span class="st">&quot;Total Saídas&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb102-7"><a href="#cb102-7" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Numero de Viagens: Dia x Horario&quot;</span>) <span class="sc">+</span></span>
+<span id="cb102-8"><a href="#cb102-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">30</span>, <span class="at">hjust=</span><span class="dv">1</span>),</span>
+<span id="cb102-9"><a href="#cb102-9" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb102-10"><a href="#cb102-10" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb102-11"><a href="#cb102-11" tabindex="-1"></a>        <span class="at">legend.title=</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb102-12"><a href="#cb102-12" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>))</span></code></pre></div>
+<p><img
+src="index_files/figure-html/unnamed-chunk-41-1.png" /><!-- --></p>
+<ul>
+<li>Os mapa de calor evidencia que o maior fluxo de deslocamentos ocorre
+em períodos diurnos, tanato em dias uteis quanto em finais de semana. De
+acordo com o mapa, os membros têm maior deslocamento ao longo do eixo
+horizontal que destaca os dias da semana, sendo quase constante nos dias
+uteis e horários de pico (eixo vertical). Os usuários casuais se
+deslocam em maior numero em dois dias específicos, sábado e domingo,
+preferencialmente em turno diurno, mas também avançando pelas primeiras
+2 horas da noite.</li>
+</ul>
+<div id="análise-acerca-do-uso-de-estações-e-trajetos"
+class="section level2">
+<h2>Análise acerca do uso de estações e trajetos</h2>
+<p>Compilando dados das estações de saída</p>
+<div class="sourceCode" id="cb103"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" tabindex="-1"></a>estacoes_saida <span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span> </span>
+<span id="cb103-2"><a href="#cb103-2" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">estacao_id =</span> start_station_id, </span>
+<span id="cb103-3"><a href="#cb103-3" tabindex="-1"></a>  <span class="at">estacao_nome =</span> start_station_name, </span>
+<span id="cb103-4"><a href="#cb103-4" tabindex="-1"></a>  <span class="at">estacao_lat =</span> start_lat, </span>
+<span id="cb103-5"><a href="#cb103-5" tabindex="-1"></a>  <span class="at">estacao_long =</span> start_lng) <span class="sc">%&gt;%</span></span>
+<span id="cb103-6"><a href="#cb103-6" tabindex="-1"></a>    <span class="fu">distinct</span>(estacao_id, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Número de estações de saída</p>
+<div class="sourceCode" id="cb104"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" tabindex="-1"></a><span class="fu">nrow</span>(estacoes_saida)</span></code></pre></div>
+<pre><code>## [1] 1523</code></pre>
+<p>Compilando dados das estações de chegada</p>
+<div class="sourceCode" id="cb106"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" tabindex="-1"></a>estacoes_chegada <span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span> </span>
+<span id="cb106-2"><a href="#cb106-2" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">estacao_id =</span> end_station_id, </span>
+<span id="cb106-3"><a href="#cb106-3" tabindex="-1"></a>  <span class="at">estacao_nome =</span> end_station_name, </span>
+<span id="cb106-4"><a href="#cb106-4" tabindex="-1"></a>  <span class="at">estacao_lat =</span> end_lat, </span>
+<span id="cb106-5"><a href="#cb106-5" tabindex="-1"></a>  <span class="at">estacao_long =</span> end_lng) <span class="sc">%&gt;%</span></span>
+<span id="cb106-6"><a href="#cb106-6" tabindex="-1"></a>    <span class="fu">distinct</span>(estacao_id, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Número de estações de chegada</p>
+<div class="sourceCode" id="cb107"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" tabindex="-1"></a><span class="fu">nrow</span>(estacoes_chegada)</span></code></pre></div>
+<pre><code>## [1] 1531</code></pre>
+<p>Unimos os dataframes com base no ID de estacao:</p>
+<div class="sourceCode" id="cb109"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" tabindex="-1"></a>estacoes <span class="ot">&lt;-</span> <span class="fu">union</span>(estacoes_saida, estacoes_chegada) <span class="sc">%&gt;%</span> </span>
+<span id="cb109-2"><a href="#cb109-2" tabindex="-1"></a><span class="fu">distinct</span>(estacao_id, <span class="at">.keep_all=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" tabindex="-1"></a><span class="fu">nrow</span>(estacoes)</span></code></pre></div>
+<pre><code>## [1] 1544</code></pre>
+<p>Definimos nossa variável <strong>rotas</strong> utilizando filtro
+para selecionas IDs de saída e chegada diferentes e válidos.</p>
+<div class="sourceCode" id="cb112"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" tabindex="-1"></a>rotas <span class="ot">&lt;-</span> cyclistic_data <span class="sc">%&gt;%</span> </span>
+<span id="cb112-2"><a href="#cb112-2" tabindex="-1"></a>  <span class="fu">filter</span>(start_station_id <span class="sc">!=</span> <span class="st">&quot;&quot;</span> <span class="sc">&amp;</span> end_station_id <span class="sc">!=</span> <span class="st">&quot;&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb112-3"><a href="#cb112-3" tabindex="-1"></a>  <span class="fu">group_by</span>(start_station_id, start_lat, start_lng, start_station_name, end_lat, end_lng, end_station_name, member_casual)<span class="sc">%&gt;%</span> </span>
+<span id="cb112-4"><a href="#cb112-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" tabindex="-1"></a><span class="fu">nrow</span>(rotas)</span></code></pre></div>
+<pre><code>## [1] 1736227</code></pre>
+<p>Separamos as informações de rotas por tipo de usuário</p>
+<div class="sourceCode" id="cb115"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" tabindex="-1"></a>casual_rota <span class="ot">&lt;-</span> rotas <span class="sc">%&gt;%</span> <span class="fu">filter</span>(member_casual <span class="sc">==</span> <span class="st">&quot;casual&quot;</span>)</span>
+<span id="cb115-2"><a href="#cb115-2" tabindex="-1"></a>member_rota <span class="ot">&lt;-</span> rotas <span class="sc">%&gt;%</span> <span class="fu">filter</span>(member_casual <span class="sc">==</span> <span class="st">&quot;member&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Numero de rotas de usuários casuais: &quot;</span>, <span class="fu">nrow</span>(casual_rota)))</span></code></pre></div>
+<pre><code>## [1] &quot;Numero de rotas de usuários casuais:  670401&quot;</code></pre>
+<div class="sourceCode" id="cb118"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Numero de rotas de usuários Membros: &quot;</span>, <span class="fu">nrow</span>(member_rota)))</span></code></pre></div>
+<pre><code>## [1] &quot;Numero de rotas de usuários Membros:  1065826&quot;</code></pre>
+<ul>
+<li>Top 10 rotas mais utilizadas pelos membros Cyclistic:</li>
+</ul>
+<div class="sourceCode" id="cb120"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" tabindex="-1"></a>top_member_rota <span class="ot">&lt;-</span> member_rota <span class="sc">%&gt;%</span></span>
+<span id="cb120-2"><a href="#cb120-2" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">%&gt;%</span></span>
+<span id="cb120-3"><a href="#cb120-3" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
+<span id="cb121-2"><a href="#cb121-2" tabindex="-1"></a>  top_member_rota,</span>
+<span id="cb121-3"><a href="#cb121-3" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(<span class="at">scrollX =</span> <span class="cn">TRUE</span>, <span class="at">scrollY =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb121-4"><a href="#cb121-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-238ce61367e18b3d6c48" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-238ce61367e18b3d6c48">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],["KA1503000014","13216","13217","KA1503000014","KA1503000071","KA1504000076","13332","TA1307000130","KA1503000071","KA1503000071"],[41.78509714636,41.834734,41.8349,41.78509714636,41.791478,41.79430062054,41.87222873224032,41.871737,41.791478,41.791478],[-87.6010727606,-87.62581299999999,-87.61793,-87.6010727606,-87.599861,-87.60144977340001,-87.66136385500431,-87.65103000000001,-87.599861,-87.599861],["Ellis Ave &amp; 60th St","State St &amp; 33rd St","Calumet Ave &amp; 33rd St","Ellis Ave &amp; 60th St","University Ave &amp; 57th St","Ellis Ave &amp; 55th St","Loomis St &amp; Lexington St","Morgan St &amp; Polk St","University Ave &amp; 57th St","University Ave &amp; 57th St"],[41.791478,41.8349,41.834734,41.79430062054,41.78509714636,41.78509714636,41.871737,41.87222873224032,41.799568,41.793242],[-87.599861,-87.61793,-87.62581299999999,-87.60144977340001,-87.6010727606,-87.6010727606,-87.65103000000001,-87.66136385500431,-87.594747,-87.587782],["University Ave &amp; 57th St","Calumet Ave &amp; 33rd St","State St &amp; 33rd St","Ellis Ave &amp; 55th St","Ellis Ave &amp; 60th St","Ellis Ave &amp; 60th St","Morgan St &amp; Polk St","Loomis St &amp; Lexington St","Kimbark Ave &amp; 53rd St","Lake Park Ave &amp; 56th St"],["member","member","member","member","member","member","member","member","member","member"],[3969,3946,3934,3861,3783,3635,2101,1871,1823,1813]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>start_station_id<\/th>\n      <th>start_lat<\/th>\n      <th>start_lng<\/th>\n      <th>start_station_name<\/th>\n      <th>end_lat<\/th>\n      <th>end_lng<\/th>\n      <th>end_station_name<\/th>\n      <th>member_casual<\/th>\n      <th>total<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"scrollY":true,"columnDefs":[{"className":"dt-right","targets":[2,3,5,6,9]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"start_station_id","targets":1},{"name":"start_lat","targets":2},{"name":"start_lng","targets":3},{"name":"start_station_name","targets":4},{"name":"end_lat","targets":5},{"name":"end_lng","targets":6},{"name":"end_station_name","targets":7},{"name":"member_casual","targets":8},{"name":"total","targets":9}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<ul>
+<li>Top 10 rotas mais utilizadas pelos usuários casuais:</li>
+</ul>
+<div class="sourceCode" id="cb122"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" tabindex="-1"></a>top_casual_rota <span class="ot">&lt;-</span> casual_rota <span class="sc">%&gt;%</span></span>
+<span id="cb122-2"><a href="#cb122-2" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">%&gt;%</span></span>
+<span id="cb122-3"><a href="#cb122-3" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre
+class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
+<span id="cb123-2"><a href="#cb123-2" tabindex="-1"></a>  top_casual_rota,</span>
+<span id="cb123-3"><a href="#cb123-3" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(<span class="at">scrollX =</span> <span class="cn">TRUE</span>, <span class="at">scrollY =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb123-4"><a href="#cb123-4" tabindex="-1"></a>)</span></code></pre></div>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-75dec9259e50a9ef36f4" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-75dec9259e50a9ef36f4">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],["13022","13300","13300","13042","13008","KA1503000064","13022","TA1308000012","KA1503000014","KA1503000064"],[41.892278,41.880958,41.880958,41.90096039,41.8810317,41.886976,41.892278,41.963982,41.78509714636,41.886976],[-87.612043,-87.616743,-87.616743,-87.62377664,-87.62408431999999,-87.612813,-87.612043,-87.638181,-87.6010727606,-87.612813],["Streeter Dr &amp; Grand Ave","DuSable Lake Shore Dr &amp; Monroe St","DuSable Lake Shore Dr &amp; Monroe St","Michigan Ave &amp; Oak St","Millennium Park","Dusable Harbor","Streeter Dr &amp; Grand Ave","Montrose Harbor","Ellis Ave &amp; 60th St","Dusable Harbor"],[41.892278,41.880958,41.892278,41.90096039,41.8810317,41.886976,41.880958,41.963982,41.79430062054,41.892278],[-87.612043,-87.616743,-87.612043,-87.62377664,-87.62408431999999,-87.612813,-87.616743,-87.638181,-87.60144977340001,-87.612043],["Streeter Dr &amp; Grand Ave","DuSable Lake Shore Dr &amp; Monroe St","Streeter Dr &amp; Grand Ave","Michigan Ave &amp; Oak St","Millennium Park","Dusable Harbor","DuSable Lake Shore Dr &amp; Monroe St","Montrose Harbor","Ellis Ave &amp; 55th St","Streeter Dr &amp; Grand Ave"],["casual","casual","casual","casual","casual","casual","casual","casual","casual","casual"],[6854,5258,3783,2818,2160,2136,1863,1787,1672,1641]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>start_station_id<\/th>\n      <th>start_lat<\/th>\n      <th>start_lng<\/th>\n      <th>start_station_name<\/th>\n      <th>end_lat<\/th>\n      <th>end_lng<\/th>\n      <th>end_station_name<\/th>\n      <th>member_casual<\/th>\n      <th>total<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"scrollY":true,"columnDefs":[{"className":"dt-right","targets":[2,3,5,6,9]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"start_station_id","targets":1},{"name":"start_lat","targets":2},{"name":"start_lng","targets":3},{"name":"start_station_name","targets":4},{"name":"end_lat","targets":5},{"name":"end_lng","targets":6},{"name":"end_station_name","targets":7},{"name":"member_casual","targets":8},{"name":"total","targets":9}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="evidências-e-conclusões" class="section level3">
+<h3>Evidências e conclusões</h3>
+<div id="membros-clyclistic" class="section level4">
+<h4>1.Membros Clyclistic</h4>
+<ul>
+<li>Como foi extensamente explorado e analisado nos dados, chegamos a
+uma forte evidência de que esse grupo de usuário faz uso dos serviços
+como meio de mobilidade para realizar suas tarefas rotineiras.Como já
+exposto, podemos qualificar o uso dos membros cyclistic, como um uso
+pragmático, muito provavelmente para fins de deslocamento até seu local
+de trabalho, estudo, ou ambiente de realização de atividade
+diárias.</li>
+</ul>
+</div>
+<div id="usuários-casuais" class="section level4">
+<h4>2.Usuários Casuais</h4>
+<ul>
+<li>Os recortes analisados evidenciaram que tempo de medio de duração
+dos passeios de usuários casuais é superior ao tempo medio de duração
+das viagens dos membros Cyclistic.A demanda desses clientes apresenta
+uma característica sazonal, com uma sobredemanda no período de verão no
+hemisfério norte e uma subdemanda no período de inverno. Esse
+comportamento pode estar associada às características climáticas de
+ambas as estações, indicando possível movimentação turística ou ferias
+de verão. Além disso, fazem viajem mais longas e em maior numero durante
+os finais de semana. Assim, qualificamos o uso dos serviços por parte
+desse grupo como uso ocasional, possivelmente como opção de lazer.</li>
+</ul>
+<p><a id="agir"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div id="agir" class="section level1">
+<h1>6: Agir</h1>
+<div
+id="medidas-para-melhorar-o-faturamento-com-membros-cyclistic-e-usuários-casuais"
+class="section level3">
+<h3>Medidas para Melhorar o Faturamento com Membros Cyclistic e Usuários
+Casuais</h3>
+<div id="membros-cyclistic" class="section level4">
+<h4>1.Membros Cyclistic:</h4>
+<ul>
+<li><p>Expandir a cobertura de estações de bicicletas em áreas com maior
+demanda, como áreas residenciais densas e outros centros
+comerciais.</p></li>
+<li><p>Implementar programas de incentivo, como pontos de recompensa por
+viagens frequentes ou descontos em parceiros comerciais.</p></li>
+<li><p>Realizar campanhas de marketing direcionadas para promover o uso
+das bicicletas como meio de transporte sustentável e econômico para o
+dia-a-dia.</p></li>
+</ul>
+</div>
+<div id="usuários-casuais-1" class="section level4">
+<h4>2.Usuários Casuais:</h4>
+<ul>
+<li><p>Oferecer descontos em planos de assinatura semestral ou anual
+para incentivar a fidelidade.</p></li>
+<li><p>Oferecer opções de aluguel de bicicletas por hora, por passeio ou
+por dia, flexibilizando os tipos de serviço, visando atrair mais
+usuários ocasionais.</p></li>
+<li><p>Ajustar os preços sazonalmente, oferecendo descontos ou promoções
+durante os períodos de baixa demanda, como o como o inverno.</p></li>
+<li><p>Implementar programas de parceria com empresas locais, hotéis e
+atrações turísticas para oferecer descontos ou pacotes especiais para os
+turistas durante os períodos de alta demanda.</p></li>
+<li><p>Realizar eventos e passeios organizados para promover o uso das
+bicicletas como uma opção sustentável de locomoção diária, além de lazer
+e turismo durante os finais de semana e feriados.</p></li>
+<li><p>Desenvolver um aplicativo mobile que vincule os deslocamentos do
+usuário a um ID único - que ofereça opção de mapeamento e armazenamento
+de informações acerca da viajem do usuário<code>¹</code>- possibilitando
+que se estabeleça metas e que o usuários possa compartilhar suas viagens
+e resultados nas redes sociais.</p></li>
+</ul>
+<p><code>1. Observar a legislação acerca do uso de dados vigente no país ou região.</code></p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
